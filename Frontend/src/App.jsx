@@ -1,12 +1,23 @@
+import { useRoutes, BrowserRouter } from 'react-router-dom'
 import './App.css'
+import { Home } from './Pages/Home'
+import { MyProfile } from './Pages/MyProfile'
+import { NotFound } from './Pages/NotFound'
 
-function App () {
+const AppRoutes = () => {
+  const routes = useRoutes([
+    { path: '/', element: <Home /> },
+    { path: '/myProfile', element: <MyProfile /> },
+    { path: '/*', element: <NotFound /> }
+  ])
+  return routes
+}
+
+const App = () => {
   return (
-    <>
-      <h1 className='text-3xl font-bold underline bg-red-700 text-center'>
-        Hello world!
-      </h1>
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 
