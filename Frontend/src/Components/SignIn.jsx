@@ -1,13 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 export default function SignIn() {
-  const [formData, setFormData] = useState(null);
   const formRef = useRef(null);
-
-  useEffect(() => {
-    //
-    console.log(formData);
-  }, [formData]);
 
   function getFormData() {
     const data = {};
@@ -19,9 +13,29 @@ export default function SignIn() {
 
     return data;
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setFormData(getFormData());
+
+    const apiUrl = "apiurl.com";
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(getFormData()),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Success:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   const inputStyle = "border-2 p-4 rounded-xl  ";
