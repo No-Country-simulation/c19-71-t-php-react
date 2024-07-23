@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-
+import swal from "@sweetalert/with-react";
 export default function SignIn() {
   const formRef = useRef(null);
 
@@ -16,7 +16,7 @@ export default function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const apiUrl = "apiurl.com";
+    const apiUrl = "https://dummyjson.com/users/add";
 
     try {
       const response = await fetch(apiUrl, {
@@ -32,9 +32,20 @@ export default function SignIn() {
       }
 
       const result = await response.json();
+      swal({
+        title: "Cuenta creada",
+
+        icon: "success",
+      });
+      formRef.current.reset();
       console.log("Success:", result);
     } catch (error) {
       console.error("Error:", error);
+      swal({
+        title: "Oops",
+        text: `Error ${error.message}`,
+        icon: "error",
+      });
     }
   }
 
@@ -43,7 +54,7 @@ export default function SignIn() {
   return (
     <form
       ref={formRef}
-      className="w-[700px] p-10 absolute top-0 border-2 right-0 flex flex-col items-center gap-10 rounded-3xl "
+      className="w-[700px] p-10  bg-white  border-2 shadow-md  flex flex-col items-center gap-10 rounded-3xl "
       onSubmit={handleSubmit}
     >
       <h2 className="font-bold">Registrate en</h2>

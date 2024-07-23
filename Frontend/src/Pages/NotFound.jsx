@@ -1,7 +1,9 @@
-import React from 'react'
-
+import React from "react";
+import Feed from "../Components/Feed";
 export const NotFound = () => {
   return (
-    <div>NotFound</div>
-  )
-}
+    <div>
+      <Feed />
+    </div>
+  );
+};

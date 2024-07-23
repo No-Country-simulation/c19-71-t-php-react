@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Login } from "../Components/Login";
 import { Modal } from "../Components/Modal";
+import SignIn from "../Components/SignIn";
 
 export const Home = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -35,7 +36,7 @@ export const Home = () => {
           />
 
           <Modal>
-            <p className="  bg-green-400 h-10 w-40">REGISTRO</p>
+            <SignIn />
           </Modal>
         </div>
       )}
