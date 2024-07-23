@@ -36,9 +36,15 @@ export default function Post({ imageUrl, author, date, avatar }) {
     modal.showModal();
     modal.addEventListener("click", clickOutsideToClose, { once: true });
   }
+
   return (
     <div>
-      <dialog ref={dialogRef}>asdfas</dialog>
+      <dialog ref={dialogRef}>
+        <div className="flex">
+          <img src={imageUrl} alt="" className="  h-[90vh]" />
+          <div>comments</div>
+        </div>
+      </dialog>
       <div className="flex flex-col gap-3 py-20">
         <div className="flex gap-3 items-center">
           <Avatar imageUrl={avatar} />
