@@ -40,7 +40,7 @@ const fakeData = [
   },
 ];
 
-function UserPublication() {
+function UserPublication({ publication }) {
   return (
     <ul className=" grid grid-cols-2 gap-2 md:grid-cols-3 p-2">
       {fakeData?.length !== 0 ? (
