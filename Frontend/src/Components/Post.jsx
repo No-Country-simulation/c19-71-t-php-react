@@ -28,13 +28,14 @@ export default function Post({ imageUrl, author, date, avatar }) {
     <div className="flex flex-col gap-3 py-20">
       <div className="flex gap-3 items-center">
         <Avatar imageUrl={avatar} />
-        <p>
+        <p className="font-bold flex gap-2">
           {author}
-          <span className="ml-1">{getPublicationDate(date)}</span>
+          <span>•</span>
+          <span className="font-normal">{getPublicationDate(date)}</span>
         </p>
       </div>
-      <div className="w-[468px] h-[585px] border-2 border-solid border-black bg-black flex items-center">
-        <img src={imageUrl} alt="" className="  bg-white    " />
+      <div className="w-[468px] h-[585px] border-2 border-solid border-black bg-black flex items-center justify-center    ">
+        <img src={imageUrl} alt="" className="  bg-white max-h-full   " />
       </div>
     </div>
   );
