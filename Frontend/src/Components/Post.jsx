@@ -25,7 +25,7 @@ export default function Post({ imageUrl, author, date, avatar }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 py-20">
       <div className="flex gap-3 items-center">
         <Avatar imageUrl={avatar} />
         <p>

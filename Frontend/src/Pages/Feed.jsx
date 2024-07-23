@@ -25,7 +25,7 @@ export default function Feed() {
       {!posts ? (
         <p>Loading posts...</p>
       ) : (
-        <ul>
+        <ul className="flex flex-col   items-center">
           {posts.map((post, index) => (
             <Post
               key={post.id}
