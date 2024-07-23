@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import swal from "@sweetalert/with-react";
+import Swal from "sweetalert2";
 export default function SignIn({ setOpenModal }) {
   const formRef = useRef(null);
 
@@ -32,17 +32,18 @@ export default function SignIn({ setOpenModal }) {
       }
 
       const result = await response.json();
-      swal({
+      Swal.fire({
         title: "Cuenta creada",
 
         icon: "success",
       });
+
       formRef.current.reset();
       setOpenModal(false);
       console.log("Success:", result);
     } catch (error) {
       console.error("Error:", error);
-      swal({
+      Swal.fire({
         title: "Oops",
         text: `Error ${error.message}`,
         icon: "error",
