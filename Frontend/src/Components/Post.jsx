@@ -25,7 +25,7 @@ export default function Post({ imageUrl, author, date, avatar }) {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <div className="flex gap-3 items-center">
         <Avatar imageUrl={avatar} />
         <p>
@@ -33,7 +33,9 @@ export default function Post({ imageUrl, author, date, avatar }) {
           <span className="ml-1">{getPublicationDate(date)}</span>
         </p>
       </div>
-      <img src={imageUrl} alt="" />
+      <div className="w-[468px] h-[585px] border-2 border-solid border-black bg-black flex items-center">
+        <img src={imageUrl} alt="" className="  bg-white    " />
+      </div>
     </div>
   );
 }
