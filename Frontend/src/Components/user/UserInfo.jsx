@@ -1,8 +1,6 @@
-import Button from "../ui/Button";
+import Button from "../Button";
 
 function UserInfo({ user }) {
-  const { firstName: name, lastName } = user;
-
   // change
   const publications = 0;
   const followers = 0;
@@ -13,8 +11,9 @@ function UserInfo({ user }) {
     <div className="flex flex-col gap-3 w-full">
       <div className="flex justify-between  gap-2 items-center">
         <h2 className="text-xl font-semibold">
-          {name} {lastName}
+          {user?.firstName} {user?.lastName}
         </h2>
+
         <Button type="primary">Seguir</Button>
       </div>
 

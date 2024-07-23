@@ -3,28 +3,38 @@ import { useEffect, useState } from "react";
 import UserInfo from "./UserInfo";
 import UserPublication from "./UserPublication";
 import Avatar from "../Avatar";
+import Spinner from "../Spinner";
 
 function UserProfile() {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const userId = 2;
+  const userId = 1;
 
   useEffect(() => {
     async function getUser() {
       const apiUrl = `https://dummyjson.com/users/${userId}`;
 
       try {
+        setIsLoading(true);
+
         const res = await fetch(apiUrl);
         const data = await res.json();
 
         setUser(data);
       } catch (err) {
         console.log("💥ERROR: ", err.message);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     getUser();
   }, [userId]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className=" grid grid-cols-[16rem_1fr] min-h-screen gap-10">
