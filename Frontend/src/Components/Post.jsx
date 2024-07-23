@@ -25,16 +25,18 @@ export default function Post({ imageUrl, author, date, avatar }) {
     }
   }
   function clickOutsideToClose(e) {
+    console.log(`event listener running`);
     const modal = dialogRef.current;
     if (e.target === modal) {
       modal.close();
+      //no need to removeEventListener, it closes itself
     }
   }
 
   function openModal() {
     const modal = dialogRef.current;
     modal.showModal();
-    modal.addEventListener("click", clickOutsideToClose, { once: true });
+    modal.addEventListener("click", clickOutsideToClose);
   }
 
   return (
