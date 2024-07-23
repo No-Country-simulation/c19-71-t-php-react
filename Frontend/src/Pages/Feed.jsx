@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
 export default function Feed() {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
-
+  const [numberOfPostFetched, setNumberOfPostFetched] =
+    useState(numberOfPostToFetch);
+  const numberOfPostToFetch = 12;
   useEffect(() => {
     async function fetchPosts() {
-      const apiUrl = "https://dummyjson.com/products";
+      const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
@@ -18,7 +20,20 @@ export default function Feed() {
     }
 
     fetchPosts(); // Call the function to fetch posts on component mount
-  }, []); // Empty dependency array to fetch posts only once on mount
+  }, [numberOfPostFetched]); // Empty dependency array to fetch posts only once on mount
+
+  function handleScroll() {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setNumberOfPostFetched((prev) => prev + numberOfPostToFetch);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div>
