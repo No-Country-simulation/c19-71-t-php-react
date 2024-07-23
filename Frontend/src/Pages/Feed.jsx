@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
+const numberOfPostToFetch = 12;
 export default function Feed() {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
   const [numberOfPostFetched, setNumberOfPostFetched] =
     useState(numberOfPostToFetch);
-  const numberOfPostToFetch = 12;
   useEffect(() => {
     async function fetchPosts() {
       const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`;
