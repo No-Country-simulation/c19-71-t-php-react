@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Post from "./Post";
+import Post from "../Components/Post";
 export default function Feed() {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
 
