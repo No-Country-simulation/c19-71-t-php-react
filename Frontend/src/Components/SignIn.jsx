@@ -58,7 +58,7 @@ export default function SignIn({ setOpenModal }) {
       className="w-[700px] p-10  bg-white  border-2 shadow-md  flex flex-col items-center gap-10 rounded-3xl "
       onSubmit={handleSubmit}
     >
-      <h2 className="font-bold">Registrate en</h2>
+      <h2 className="font-semibold text-2xl">Registrate en</h2>
       <div className="flex flex-wrap gap-10 justify-center  ">
         <input
           className={inputStyle}
