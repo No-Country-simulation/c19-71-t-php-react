@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import swal from "@sweetalert/with-react";
-export default function SignIn() {
+export default function SignIn({ setOpenModal }) {
   const formRef = useRef(null);
 
   function getFormData() {
@@ -38,6 +38,7 @@ export default function SignIn() {
         icon: "success",
       });
       formRef.current.reset();
+      setOpenModal(false);
       console.log("Success:", result);
     } catch (error) {
       console.error("Error:", error);

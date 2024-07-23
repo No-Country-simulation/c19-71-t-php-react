@@ -36,7 +36,7 @@ export const Home = () => {
           />
 
           <Modal>
-            <SignIn />
+            <SignIn setOpenModal={setOpenModal} />
           </Modal>
         </div>
       )}
