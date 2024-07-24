@@ -40,10 +40,11 @@ export default function Feed() {
       {!posts ? (
         <p>Loading posts...</p>
       ) : (
-        <ul className="flex flex-col   items-center">
+        <ul className="flex flex-col   items-center  ">
           {posts.map((post, index) => (
             <Post
               key={post.id}
+              comments={post.reviews}
               author={post?.brand}
               imageUrl={post.images[0]}
               date={post.reviews[0].date}

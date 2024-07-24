@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Avatar from "./Avatar";
-export default function Post({ imageUrl, author, date, avatar }) {
+import Comment from "./Comment";
+export default function Post({ imageUrl, author, date, avatar, comments }) {
   const dialogRef = useRef(null);
   function getPublicationDate(dateString) {
     const date = new Date(dateString);
@@ -43,8 +44,25 @@ export default function Post({ imageUrl, author, date, avatar }) {
     <div>
       <dialog ref={dialogRef}>
         <div className="flex">
-          <img src={imageUrl} alt="" className="  h-[90vh]" />
-          <div>comments</div>
+          <img
+            src={imageUrl}
+            alt=""
+            className="  h-[90vh] border-2 border-solid border-black "
+          />
+          <ul className="flex flex-col   gap-6 p-[2rem] ">
+            {comments.map((comment) => (
+              <Comment
+                key={comment.id}
+                date={comment.date}
+                getPublicationDate={getPublicationDate}
+                message={comment.comment}
+                author={{
+                  name: comment.reviewerName,
+                  avatar: "https://i.pravatar.cc/300",
+                }}
+              />
+            ))}
+          </ul>
         </div>
       </dialog>
       <div className="flex flex-col gap-3 py-20">
