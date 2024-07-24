@@ -40,6 +40,8 @@ export default function Post({ imageUrl, author, date, avatar, comments }) {
     modal.addEventListener("click", clickOutsideToClose);
   }
 
+  const commentsStyle = "flex items-center gap-4 p-6";
+
   return (
     <div>
       <dialog ref={dialogRef}>
@@ -49,9 +51,13 @@ export default function Post({ imageUrl, author, date, avatar, comments }) {
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col   gap-6 p-[2rem] ">
+          <ul className="flex flex-col      ">
+            <div className={`${commentsStyle} border-b-2`}>
+              <Avatar imageUrl={imageUrl} /> <p>{author}</p>
+            </div>
             {comments.map((comment) => (
               <Comment
+                className={commentsStyle}
                 key={comment.id}
                 date={comment.date}
                 getPublicationDate={getPublicationDate}

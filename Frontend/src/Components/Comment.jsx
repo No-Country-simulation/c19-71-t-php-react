@@ -1,8 +1,14 @@
 import React from "react";
 import Avatar from "./Avatar";
-export default function Comment({ date, message, author, getPublicationDate }) {
+export default function Comment({
+  className,
+  date,
+  message,
+  author,
+  getPublicationDate,
+}) {
   return (
-    <div className="flex gap-4  ">
+    <div className={className}>
       <Avatar imageUrl={author.avatar} />
       <div className="flex  flex-col gap-1">
         <p>
