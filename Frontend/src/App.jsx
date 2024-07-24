@@ -6,10 +6,12 @@ import { NotFound } from "./Pages/NotFound";
 import Feed from "./Pages/Feed";
 
 const AppRoutes = () => {
+ // const token = sessionStorage.getItem("authToken")
+  const token ='autorizado' // para poder navegar sin usuasrio y contraseña. IMPORTANTE BORRAR PARA PRODUCCION
   const routes = useRoutes([
     { path: "/", element: <Home /> },
-    { path: "/myProfile", element: <MyProfile /> },
-    { path: "/feed", element: <Feed /> },
+    { path: "/myProfile", element: token? <MyProfile /> : <Home /> },
+    { path: "/feed", element: token? <Feed /> : <Home />  },
     { path: "/*", element: <NotFound /> },
   ]);
   return routes;
