@@ -9,7 +9,7 @@ export const Home = () => {
     <div className='w-screen   flex justify-center  '>
       <div className='flex  flex-col md:flex-row  mt-10 md:mt-20 items-center  w-full md:h-[610px] md:w-[1236px]'>
         <img
-          src='/Golbalink-conectados es mejor- version N.png'
+          src='/img/Golbalink-conectados es mejor- version N.png'
           alt='Logo de globalink'
           className=' h-28 w-28   md:h-[379px] md:w-[401px] md:ml-44 '
         />
