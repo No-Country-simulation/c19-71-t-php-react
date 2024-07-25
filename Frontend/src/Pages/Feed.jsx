@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
+import Category from "../Components/Category";
+import { useSearchParams } from "react-router-dom";
+
 const numberOfPostToFetch = 12;
+
 export default function Feed() {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
   const [numberOfPostFetched, setNumberOfPostFetched] =
     useState(numberOfPostToFetch);
+
+  ////////////////////////////
+
+  const [searchParams] = useSearchParams();
+
+  // 1) FILTER
+  const filterValue = searchParams.get("categoria") || "all";
+  // let filteredPosts;
+
+  console.log(filterValue);
+
+  ////////////////////////////
+
   useEffect(() => {
     async function fetchPosts() {
       const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setPosts(data.products);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -36,7 +53,9 @@ export default function Feed() {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
+      <Category />
+
       {!posts ? (
         <p>Loading posts...</p>
       ) : (
