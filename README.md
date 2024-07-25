@@ -1,10 +1,8 @@
-# %Globalink%
+# 🌐Globalink
 
 <br/>
 
-%Imagen%
-
-<br/>
+<!-- imagen -->
 
 ## Descripción
 
@@ -12,9 +10,20 @@
 
 <br/>
 
-## Stack/Tecnologías
+## Tecnologías Utilizadas
 
-<p>%content%</p>
+### Front End
+
+[![Skills](https://skillicons.dev/icons?i=tailwind,react)](https://skillicons.dev)
+
+### Back End
+
+[![Skills](https://skillicons.dev/icons?i=php,laravel,sql)](https://skillicons.dev)
+
+### Diseño
+
+[![Skills](https://skillicons.dev/icons?i=figma)](https://skillicons.dev)
+  
 
 <br/>
 
@@ -31,7 +40,8 @@
 | Maximiliano | %rol% | [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]()  | [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]()|
 | André | %rol% | [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]()  | [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]()|
 | Urueña Carlos | Backend | [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]()  | [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]()|
-| Lissbeth Escobar | Frontend | [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]()  | [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]()|
+| Lissbeth Escobar | Frontend | [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lissbethe)  | [![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LissbethE)|
+
 
 <br/>
 
