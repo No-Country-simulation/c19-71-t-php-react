@@ -1,15 +1,10 @@
-import Post, {
-  find,
-  schema as _schema,
-  findByIdAndUpdate,
-  findByIdAndDelete,
-} from "../models/post";
-import User, { find } from "../models/user";
-import { categoryEnum } from "../models/post";
-import asyncHandler from "express-async-handler";
-import { verify } from "jsonwebtoken";
-import { body, validationResult } from "express-validator";
-import { decode } from "he";
+const Post = require("../models/post");
+const User = require("../models/user");
+const asyncHandler = require("express-async-handler");
+const { verify } = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
+const { decode } = require("he");
+const { categoryEnum } = require("../models/post");
 
 const isURL = require("validator/lib/isURL");
 
@@ -29,29 +24,10 @@ function getBearerHeaderToSetTokenStringOnReq(req, res, next) {
   }
 }
 
-export const post_create = [
+exports.post_create = [
   getBearerHeaderToSetTokenStringOnReq,
   // Validate body and sanitize fields.
-  /*   body("userIdsWhoLiked")
-    .isArray()
-    .custom(async (value) => {
-      if (!Array.isArray(value)) {
-        throw new Error("userIdsWhoLiked must be an array");
-      }
 
-      for (const userId of value) {
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-          throw new Error("Invalid userId format");
-        }
-
-        const user = await User.findById(userId);
-        if (!user) {
-          throw new Error("User not found");
-        }
-      }
-
-      return true;
-    }), */
   body("imageURL", "Image URL is required")
     .trim()
     .escape()
@@ -61,10 +37,8 @@ export const post_create = [
         throw new Error("Invalid image URL");
       }
       return true;
-    })
-    .body("category", "category must be specified")
-    .trim()
-    .isIn(categoryEnum),
+    }),
+  body("category", "category must be specified").trim().isIn(categoryEnum),
   body("description")
     .optional() // Allows the field to be absent
     .trim()
@@ -118,13 +92,13 @@ export const post_create = [
   },
 ];
 
-export const post_list = asyncHandler(async (req, res, next) => {
+exports.post_list = asyncHandler(async (req, res, next) => {
   const posts = await find().sort({ price: -1 }).exec();
   console.log(`response is ${JSON.stringify(posts)}`);
   res.json(posts);
 });
 
-export const post_schema = asyncHandler(async (req, res, next) => {
+exports.post_schema = asyncHandler(async (req, res, next) => {
   //
   const schema = _schema.paths;
   const schemaDetails = Object.keys(schema)
@@ -141,7 +115,7 @@ export const post_schema = asyncHandler(async (req, res, next) => {
   res.json(schemaDetails);
 });
 
-export const post_update = [
+exports.post_update = [
   getBearerHeaderToSetTokenStringOnReq,
   // Validate body and sanitize fields.
   body("userIdsWhoLiked")
@@ -173,10 +147,8 @@ export const post_update = [
         throw new Error("Invalid image URL");
       }
       return true;
-    })
-    .body("category", "category must be specified")
-    .trim()
-    .isIn(categoryEnum),
+    }),
+  body("category", "category must be specified").trim().isIn(categoryEnum),
   body("description")
     .optional() // Allows the field to be absent
     .trim()
@@ -224,7 +196,7 @@ export const post_update = [
   },
 ];
 
-export const post_delete = [
+exports.post_delete = [
   getBearerHeaderToSetTokenStringOnReq,
   async (req, res, next) => {
     try {

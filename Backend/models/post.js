@@ -1,7 +1,7 @@
-import { Schema as _Schema, model } from "mongoose";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const Schema = _Schema;
-export const categoryEnum = ["Movies", "Sports", "Anime"];
+const categoryEnum = ["Movies", "Sports", "Anime"];
 const PostSchema = new Schema({
   userIdsWhoLiked: [
     { type: Schema.Types.ObjectId, ref: "User", required: false },
@@ -18,4 +18,7 @@ const PostSchema = new Schema({
 });
 
 // Export model
-export default model("Post", PostSchema);
+module.exports = {
+  Post: mongoose.model("Post", PostSchema),
+  categoryEnum,
+};
