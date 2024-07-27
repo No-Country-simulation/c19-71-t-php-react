@@ -1,10 +1,9 @@
-const Post = require("../models/post");
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const { verify } = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const { decode } = require("he");
-const { categoryEnum } = require("../models/post");
+const { categoryEnum, Post } = require("../models/post");
 
 const isURL = require("validator/lib/isURL");
 
@@ -77,7 +76,7 @@ exports.post_create = [
     if (!errors.isEmpty()) {
       // There are errors.
 
-      res.status(422).json({ error: "Validation failed" });
+      res.status(422).json({ error: "Validation from header body failed" });
       return;
     } else {
       try {
