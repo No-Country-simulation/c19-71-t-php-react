@@ -1,8 +1,8 @@
-import User, { find } from "../models/user";
-import asyncHandler from "express-async-handler";
-import { hash, compare } from "bcryptjs";
-import { body, validationResult } from "express-validator";
-import { sign, verify } from "jsonwebtoken";
+const User = require("../models/user");
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const { body, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 export function user_list(req, res, next) {
   res.render("index", { title: "Express" });

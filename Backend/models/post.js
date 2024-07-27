@@ -1,14 +1,13 @@
-import mongoose from "mongoose";
-
-const { Schema } = mongoose;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const categoryEnum = ["Movies", "Sports", "Anime"];
 
 const PostSchema = new Schema({
   userIdsWhoLiked: [
-    { type: Schema.Types.ObjectId, ref: "User", required: true },
+    { type: Schema.Types.ObjectId, ref: "User", required: false },
   ],
-  image: { type: String, required: true },
+  imageURL: { type: String, required: true },
   category: {
     type: String,
     enum: categoryEnum,
@@ -17,10 +16,10 @@ const PostSchema = new Schema({
   description: { type: String, required: false },
   createdAt: { type: Date, required: true },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  commentsIds: [
-    { type: Schema.Types.ObjectId, ref: "Comment", required: false },
-  ],
 });
 
 // Export model
-export default mongoose.model("Post", PostSchema);
+module.exports = {
+  Post: mongoose.model("Post", PostSchema),
+  categoryEnum,
+};

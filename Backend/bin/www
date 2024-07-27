@@ -4,18 +4,15 @@
  * Module dependencies.
  */
 
-import app from "../app.js";
-import createDebug from "debug";
-import http from "http";
-
-const debug = createDebug("backend:server");
+var app = require("../app");
+var debug = require("debug")("backend:server");
+var http = require("http");
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || "3000");
-
 app.set("port", port);
 
 /**
