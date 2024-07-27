@@ -6,7 +6,7 @@ const PostSchema = new Schema({
   userIdsWhoLiked: [
     { type: Schema.Types.ObjectId, ref: "User", required: false },
   ],
-  image: { type: String, required: true },
+  imageURL: { type: String, required: true },
   category: {
     type: String,
     enum: categoryEnum,
@@ -15,9 +15,6 @@ const PostSchema = new Schema({
   description: { type: String, required: false },
   createdAt: { type: Date, required: true },
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  commentsIds: [
-    { type: Schema.Types.ObjectId, ref: "Comment", required: false },
-  ],
 });
 
 // Export model

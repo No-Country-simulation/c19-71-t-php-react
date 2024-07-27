@@ -4,11 +4,14 @@ import Post, {
   findByIdAndUpdate,
   findByIdAndDelete,
 } from "../models/post";
+import User, { find } from "../models/user";
 import { categoryEnum } from "../models/post";
 import asyncHandler from "express-async-handler";
 import { verify } from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
 import { decode } from "he";
+
+const isURL = require("validator/lib/isURL");
 
 function getBearerHeaderToSetTokenStringOnReq(req, res, next) {
   const bearerHeader = req.headers?.authorization;
@@ -29,26 +32,54 @@ function getBearerHeaderToSetTokenStringOnReq(req, res, next) {
 export const post_create = [
   getBearerHeaderToSetTokenStringOnReq,
   // Validate body and sanitize fields.
-  body("image", "image must be specified").trim().isLength({ min: 1 }).escape(),
+  body("userIdsWhoLiked")
+    .isArray()
+    .custom(async (value) => {
+      if (!Array.isArray(value)) {
+        throw new Error("userIdsWhoLiked must be an array");
+      }
 
-  body("category", "category must be specified").trim().isIn(categoryEnum),
+      for (const userId of value) {
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          throw new Error("Invalid userId format");
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+      }
+
+      return true;
+    }),
+  body("imageURL", "Image URL is required")
+    .trim()
+    .escape()
+    .isLength({ min: 1 })
+    .custom((value) => {
+      if (!isURL(value)) {
+        throw new Error("Invalid image URL");
+      }
+      return true;
+    })
+    .body("category", "category must be specified")
+    .trim()
+    .isIn(categoryEnum),
   body("description")
     .optional() // Allows the field to be absent
     .trim()
     .escape(),
 
-  body("createdAt")
-    .optional() // Allows the field to not be present
-    .trim()
-    .escape()
-    .isBoolean()
-    .withMessage("outOfStock must be a boolean value"),
-  body("userId")
-    .optional() // Allows the field to be absent
-    .trim()
-    .escape()
-    .isNumeric()
-    .withMessage("Flavours must be a valid number"),
+  body("createdAt", "Invalid createdAt format").isISO8601(),
+  body("userId", "Invalid userId")
+    .isMongoId() // Basic check for valid ObjectId format
+    .custom(async (value) => {
+      const user = await User.findById(value);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return true;
+    }),
   // Process request after validation and sanitization.
 
   async (req, res, next) => {
