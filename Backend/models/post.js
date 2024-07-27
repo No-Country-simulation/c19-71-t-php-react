@@ -1,7 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
+
 const categoryEnum = ["Movies", "Sports", "Anime"];
+
 const PostSchema = new Schema({
   userIdsWhoLiked: [
     { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -21,4 +23,4 @@ const PostSchema = new Schema({
 });
 
 // Export model
-module.exports = mongoose.model("Post", PostSchema);
+export default mongoose.model("Post", PostSchema);
