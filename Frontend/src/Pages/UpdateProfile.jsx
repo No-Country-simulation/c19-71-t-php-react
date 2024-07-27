@@ -1,8 +1,14 @@
+import UpdateUserDataForm from "../Components/user/UpdateUserDataForm";
+
 function UpdateProfile() {
   return (
-    <div className=" bg-orange-600 h-screen w-full flex items-center justify-center">
-      <h1>Editar Perfil</h1>
-    </div>
+    <section className="w-[95%] px-4 py-4  mx-auto md:w-[70%]">
+      <h1 className=" text-3xl font-semibold my-6 text-center text-[#575757]">
+        Editar Perfil
+      </h1>
+
+      <UpdateUserDataForm />
+    </section>
   );
 }
 
