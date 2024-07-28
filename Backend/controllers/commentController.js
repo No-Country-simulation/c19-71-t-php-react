@@ -1,4 +1,4 @@
-const Post = require("../models/post");
+const {Post} = require("../models/post");
 const User = require("../models/user");
 const Comment = require("../models/comments");
 const asyncHandler = require("express-async-handler");
@@ -63,13 +63,13 @@ exports.addComments = [
     const comment = new Comment({
       comment: req.body.comment,
       createdAt: req.body.createdAt,
-      userID: req.body.userId,
-      postID: req.body.postId
+      userId: req.body.userId,
+      postId: req.body.postId
     });
 
     if (!errors.isEmpty()) {
       // There are errors.
-
+      console.log(errors);
       res.status(422).json({ error: "Validation failed" });
       return;
     } else {
@@ -87,6 +87,7 @@ exports.addComments = [
 
 exports.commentsList = asyncHandler(async (req, res) => {
   const postId = req.params.postId
-  const comments = await Comment.findById(postId);
+  const comments = await Comment.find({postId: postId});
+  console.log(comments);
   res.json(comments);
 });
