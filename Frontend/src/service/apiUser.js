@@ -1,15 +1,15 @@
 export async function updateUserProfile({ userId, data }) {
   console.log(userId, data);
 
-  /* const url = ``;
-
+  const url = `http://localhost:3000/users/${userId}`;
+  const token = sessionStorage.getItem("authToken");
   fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer token",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(values),
+    body: JSON.stringify(data),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -17,5 +17,5 @@ export async function updateUserProfile({ userId, data }) {
     })
     .catch((error) => {
       console.error("Error:", error);
-    });*/
+    });
 }

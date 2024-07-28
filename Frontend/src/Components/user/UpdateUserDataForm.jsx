@@ -19,7 +19,7 @@ function UpdateUserDataForm() {
   function onSubmit(value) {
     const data = { ...value, avatar: photo };
 
-    updateUserProfile({ userId: 1, data });
+    updateUserProfile({ userId: `66a5b02dc2f25dbe71c4c9ff`, data });
   }
 
   return (
@@ -42,14 +42,14 @@ function UpdateUserDataForm() {
         />
       </FormRow>
 
-      <FormRow label="Usuario" error={errors?.usuario?.message}>
+      <FormRow label="Usuario" error={errors?.username?.message}>
         <input
           type="text"
-          id="usuario"
+          id="username"
           placeholder="Confirma tu contraseña"
           className={inputStyle}
           //disabled={isLoading}
-          {...register("usuario", {
+          {...register("username", {
             required: "Este campo es obligatorio",
           })}
         />

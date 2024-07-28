@@ -12,4 +12,6 @@ router.post("/signin", user_controller.user_signin);
 
 router.post("/auth", user_controller.user_auth);
 
+router.put("/:id", user_controller.user_update);
+
 module.exports = router;

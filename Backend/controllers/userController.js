@@ -4,9 +4,11 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
-exports.user_list = (req, res, next) => {
-  res.send("Hello World!");
-};
+exports.user_list = asyncHandler(async (req, res, next) => {
+  const users = await User.find().sort({ username: -1 }).exec();
+  console.log(`response is ${JSON.stringify(users)}`);
+  res.json(users);
+});
 
 //account creation
 //no json token code here, only bcrypt
@@ -160,4 +162,58 @@ exports.user_auth = [
       }
     });
   }),
+];
+
+exports.user_update = [
+  getBearerHeaderToSetTokenStringOnReq,
+  // Validate body and sanitize fields.
+  body("username", "username must be specified")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("password", "password must be specified")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("email", "email must be specified").trim().isLength({ min: 1 }).escape(),
+  body("name", "name must be specified").trim().isLength({ min: 1 }).escape(),
+  body("lastName", "lastName must be specified")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description").trim().escape().optional({ nullable: true }),
+  body("avatar").trim().escape().optional({ nullable: true }),
+
+  async (req, res, next) => {
+    const updatedUser = new User({
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      name: req.body.name,
+      lastName: req.body.lastName,
+      description: req.body.description,
+      avatar: req.body.avatar,
+      description: req.body.description,
+
+      _id: req.params.id, // This is required, or a new ID will be assigned!
+    });
+
+    console.log(`updated user ${updatedUser}  `);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      res.status(422).json({ error: "Validation failed" });
+    } else {
+      try {
+        jwt.verify(req.token, "secretkey");
+        await User.findByIdAndUpdate(req.params.id, updatedUser, {});
+
+        res.status(200).json({});
+      } catch (error) {
+        console.log("Error occurred:", error);
+        res.status(500).json({ error: error });
+      }
+    }
+  },
 ];
