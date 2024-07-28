@@ -29,8 +29,8 @@ export default function Feed() {
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
-        // console.log(data);
-        setPosts(data.products);
+        console.log(data);
+        setPosts(data);
       } catch (error) {
         console.error("Error fetching posts:", error);
         // Handle errors gracefully, e.g., display an error message to the user
@@ -63,12 +63,12 @@ export default function Feed() {
         <ul className="flex flex-col   items-center  ">
           {posts.map((post) => (
             <Post
-              key={post.id}
-              comments={post.reviews}
-              author={post?.brand}
-              imageUrl={post.images[0]}
-              date={post.reviews[0].date}
-              avatar={post.thumbnail}
+              key={post._id}
+              imageUrl={post.imageURL}
+              description={post.description}
+              date={post.createdAt}
+              userId={post.userId}
+              id={post._id}
             />
           ))}
         </ul>

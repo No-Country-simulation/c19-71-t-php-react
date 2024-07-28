@@ -104,7 +104,14 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 
   const posts = await Post.find().setOptions(options).exec();
   console.log(`response is ${JSON.stringify(posts)}`);
-  res.json(posts);
+  const decodedPosts = posts.map((post) => {
+    return {
+      ...post.toObject(),
+      imageURL: decode(post.imageURL),
+    };
+  });
+  console.log(decodedPosts);
+  res.json(decodedPosts);
 });
 
 exports.post_schema = asyncHandler(async (req, res, next) => {
