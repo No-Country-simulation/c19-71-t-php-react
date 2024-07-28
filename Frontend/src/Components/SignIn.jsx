@@ -6,7 +6,7 @@ export default function SignIn({ setOpenModal }) {
   function getFormData() {
     const data = {};
     const formElements = formRef.current.elements;
-    const keys = ["name", "subname", "email", "password", "username"];
+    const keys = ["name", "lastName", "email", "password", "username"];
     keys.forEach((key) => {
       data[key] = formElements[key].value;
     });
@@ -16,7 +16,7 @@ export default function SignIn({ setOpenModal }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const apiUrl = "https://dummyjson.com/users/add";
+    const apiUrl = "http://localhost:3000/users/signup";
 
     try {
       const response = await fetch(apiUrl, {
@@ -71,7 +71,7 @@ export default function SignIn({ setOpenModal }) {
         <input
           className={inputStyle}
           type="text"
-          name="subname"
+          name="lastName"
           placeholder="APELLIDO"
           required
         />

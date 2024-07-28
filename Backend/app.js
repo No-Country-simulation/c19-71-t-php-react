@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const cors = require("cors");
 require("dotenv").config();
 
 var indexRouter = require("./routes/index");
@@ -29,6 +29,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+const allowedOrigins =
+  process.env.CLIENTSCORS_ALLOWED_ORIGINS?.split(",") ||
+  process.env.DEV_CORS_ALLOWED_ORIGINS.split(",");
+console.log(allowedOrigins);
+app.use(
+  cors({
+    origin: allowedOrigins,
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

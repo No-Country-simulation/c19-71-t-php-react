@@ -20,13 +20,18 @@ exports.user_signup = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
+  body("email", "email must be specified").trim().isLength({ min: 1 }).escape(),
+  body("name", "name must be specified").trim().isLength({ min: 1 }).escape(),
+  body("lastName", "lastName must be specified")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a BookInstance object with escaped and trimmed data.
     console.log(`body content is:${JSON.stringify(req.body)}`);
 
     const plainPassword = req.body.password;
@@ -35,13 +40,16 @@ exports.user_signup = [
     const user = new User({
       password: hashedPassword,
       username: req.body.username,
+      email: req.body.email,
+      name: req.body.name,
+      lastName: req.body.lastName,
     });
 
     const usernameTaken = await User.find({ username: req.body.username });
 
     if (!errors.isEmpty()) {
       // There are errors.
-
+      console.log(errors);
       res.status(422).json({ error: "Validation failed" });
       return;
     } else if (usernameTaken.length >= 1) {
@@ -50,6 +58,7 @@ exports.user_signup = [
       return;
     } else {
       // Data from form is valid
+      console.log(`data from from is valid!`);
       await user.save();
       console.log("user saved !");
 
@@ -69,7 +78,6 @@ exports.user_signin = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.

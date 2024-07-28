@@ -8,6 +8,19 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  lastName: { type: String, required: true },
+  description: { type: String, required: false },
+  avatar: { type: String, required: false },
+  //seguidores
+  userIdsWhoFollow: [
+    { type: Schema.Types.ObjectId, ref: "User", required: true },
+  ],
+  //seguidos
+  userIdsfollowed: [
+    { type: Schema.Types.ObjectId, ref: "User", required: true },
+  ],
 });
 
 // Export model
