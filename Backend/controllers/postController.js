@@ -44,7 +44,6 @@ exports.post_create = [
     .trim()
     .escape(),
 
-  body("createdAt", "Invalid createdAt format").isISO8601(),
   body("userId", "Invalid userId")
     .isMongoId() // Basic check for valid ObjectId format
     .custom(async (value) => {
@@ -69,8 +68,8 @@ exports.post_create = [
       imageURL: req.body.imageURL,
       category: req.body.category,
 
-      description: req.body?.description,
-      createdAt: req.body.createdAt,
+      description: req.body.description,
+      createdAt: new Date(),
       userId: req.body.userId,
     });
 
