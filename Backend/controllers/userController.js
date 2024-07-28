@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+//se que esto es peligroso tener tan accesible pero para el desarrollo lo necesitamos
 exports.user_list = asyncHandler(async (req, res, next) => {
   const users = await User.find().sort({ username: -1 }).exec();
   console.log(`response is ${JSON.stringify(users)}`);
