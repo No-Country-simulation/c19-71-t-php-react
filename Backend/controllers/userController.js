@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
+//se que esto es peligroso tener tan accesible pero para el desarrollo lo necesitamos
 exports.user_list = asyncHandler(async (req, res, next) => {
   const users = await User.find().sort({ username: -1 }).exec();
   console.log(`response is ${JSON.stringify(users)}`);
@@ -46,6 +47,7 @@ exports.user_signup = [
       name: req.body.name,
       lastName: req.body.lastName,
     });
+    console.log(user);
 
     const usernameTaken = await User.find({ username: req.body.username });
 
@@ -89,7 +91,7 @@ exports.user_signin = [
     console.log(`body content is:${JSON.stringify(req.body)}`);
 
     const user = await User.find({ username: req.body.username });
-    console.log(req.body.username);
+    console.log(user);
     if (!errors.isEmpty()) {
       // There are errors.
 
@@ -102,6 +104,7 @@ exports.user_signin = [
       return;
     } else {
       // Data from form is valid
+      console.log(user[0]);
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
           // Handle bcrypt error
@@ -110,7 +113,7 @@ exports.user_signin = [
         }
 
         if (result) {
-          // Passwords match, user is authenticated
+          // Password match, user is authenticated
           console.log("passwords match");
           jwt.sign({ user }, "secretkey", (err, token) => {
             if (err) {
@@ -124,8 +127,9 @@ exports.user_signin = [
 
           /*     res.status(200).json({ user }); */
         } else {
-          // Passwords don't match, authentication failed
-          res.status(401).json({ error: "Authentication failed" });
+          // Password don't match, authentication failed
+          console.log(`password dont match`);
+          res.status(401).json({ error: " Password dont match" });
         }
       });
     }
@@ -185,9 +189,12 @@ exports.user_update = [
   body("avatar").trim().escape().optional({ nullable: true }),
 
   async (req, res, next) => {
+    const plainPassword = req.body.password;
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
     const updatedUser = new User({
       username: req.body.username,
-      password: req.body.password,
+      password: hashedPassword,
       email: req.body.email,
       name: req.body.name,
       lastName: req.body.lastName,

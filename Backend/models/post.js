@@ -1,7 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const categoryEnum = ["Movies", "Sports", "Anime"];
+const categoryEnum = [
+  "politics",
+  "sports",
+  "movies",
+  "music",
+  "science",
+  "fashion",
+  "travel",
+  "astrology",
+  "cooking",
+  "weather",
+];
 
 const PostSchema = new Schema({
   userIdsWhoLiked: [
