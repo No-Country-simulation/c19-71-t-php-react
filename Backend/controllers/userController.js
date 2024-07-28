@@ -83,7 +83,6 @@ exports.user_signin = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a BookInstance object with escaped and trimmed data.
     console.log("user sign in controller");
     console.log(`body content is:${JSON.stringify(req.body)}`);
 
@@ -93,6 +92,7 @@ exports.user_signin = [
       // There are errors.
 
       res.status(422).json({ error: "Validation failed" });
+      console.log(errors);
       return;
     } else if (user.length === 0) {
       console.log("user not found");
