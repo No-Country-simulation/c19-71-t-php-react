@@ -1,10 +1,17 @@
-import express from "express";
+var express = require("express");
+const userController = require("../controllers/userController");
+
+//////////////////////
 
 const router = express.Router();
 
-/* GET users listing. */
-router.get("/", (req, res, next) => {
-  res.send("respond with a resource");
-});
+router.route("/").get(userController.getUsers);
 
-export default router;
+//* Estas rutas tiene que ser protegidas, hay que crear un Middleware
+// The user must be registered
+router
+  .route("/profile/:id")
+  .get(userController.getUserProfile)
+  .patch(userController.updateUserProfile);
+
+module.exports = router;

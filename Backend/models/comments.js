@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
   comment: { type: String, required: true },
@@ -10,4 +10,4 @@ const PostSchema = new Schema({
 });
 
 // Export model
-export default mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema);

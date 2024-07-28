@@ -4,11 +4,11 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
-export function user_list(req, res, next) {
+exports.user_list = function (req, res, next) {
   res.render("index", { title: "Express" });
-}
+};
 
-export const user_signup = [
+exports.user_signup = [
   // Validate body and sanitize fields.
   body("username", "username must be specified")
     .trim()
@@ -56,7 +56,7 @@ export const user_signup = [
   }),
 ];
 
-export const user_signin = [
+exports.user_signin = [
   // Validate body and sanitize fields.
   body("username", "username must be specified")
     .trim()
@@ -136,7 +136,7 @@ function getBearerHeaderToSetTokenStringOnReq(req, res, next) {
   }
 }
 
-export const user_auth = [
+exports.user_auth = [
   getBearerHeaderToSetTokenStringOnReq,
   asyncHandler(async (req, res, next) => {
     //authData is what i passed in the jwt.sign
@@ -149,3 +149,61 @@ export const user_auth = [
     });
   }),
 ];
+
+//////////////////////////////
+
+//* Get user profile
+// @route GET /users/profile/id
+// @access Private
+exports.getUserProfile = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("💥User not found");
+  }
+
+  // Send Response 🛩️
+  res.status(200).json({
+    status: "success",
+    data: { user },
+  });
+});
+
+//* Get users
+// @route GET  /users
+// @access Public
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find({});
+
+  if (!users) {
+    res.status(404);
+    throw new Error("💥Users not found");
+  }
+
+  // Send Response 🛩️
+  res.status(200).json({
+    status: "success",
+    data: { users },
+  });
+});
+
+//* Update user profile
+// @route PATCH  /users/profile/id
+// @access Private
+exports.updateUserProfile = asyncHandler(async (req, res, next) => {
+  const options = { new: true, runValidators: false };
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, options);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("💥User not found");
+  }
+
+  // Send Response 🛩️
+  res.status(200).json({
+    status: "success",
+    data: { user },
+  });
+});
