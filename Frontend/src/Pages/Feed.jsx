@@ -24,7 +24,8 @@ export default function Feed() {
 
   useEffect(() => {
     async function fetchPosts() {
-      const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`;
+      /* const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`; */
+      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
@@ -60,7 +61,7 @@ export default function Feed() {
         <p>Loading posts...</p>
       ) : (
         <ul className="flex flex-col   items-center  ">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <Post
               key={post.id}
               comments={post.reviews}

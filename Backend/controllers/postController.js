@@ -92,7 +92,17 @@ exports.post_create = [
 ];
 
 exports.post_list = asyncHandler(async (req, res, next) => {
-  const posts = await Post.find().sort({ description: -1 }).exec();
+  const { limit } = req.query;
+
+  const options = {
+    sort: { createdAt: -1 }, // Default sorting by createdAt descending
+  };
+
+  if (limit) {
+    options.limit = parseInt(limit, 10);
+  }
+
+  const posts = await Post.find().setOptions(options).exec();
   console.log(`response is ${JSON.stringify(posts)}`);
   res.json(posts);
 });

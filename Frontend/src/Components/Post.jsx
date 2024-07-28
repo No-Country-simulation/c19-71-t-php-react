@@ -51,23 +51,29 @@ export default function Post({ imageUrl, author, date, avatar, comments }) {
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col      ">
-            <div className={`${commentsStyle} border-b-2`}>
-              <Avatar imageUrl={imageUrl} /> <p>{author}</p>
+          <ul className="flex flex-col justify-between">
+            <div>
+              <div className={`${commentsStyle} border-b-2`}>
+                <Avatar imageUrl={imageUrl} /> <p>{author}</p>
+              </div>
+              {comments.map((comment, index) => (
+                <Comment
+                  className={commentsStyle}
+                  key={index}
+                  date={comment.date}
+                  getPublicationDate={getPublicationDate}
+                  message={comment.comment}
+                  author={{
+                    name: comment.reviewerName,
+                    avatar: "https://i.pravatar.cc/300",
+                  }}
+                />
+              ))}
             </div>
-            {comments.map((comment) => (
-              <Comment
-                className={commentsStyle}
-                key={comment.id}
-                date={comment.date}
-                getPublicationDate={getPublicationDate}
-                message={comment.comment}
-                author={{
-                  name: comment.reviewerName,
-                  avatar: "https://i.pravatar.cc/300",
-                }}
-              />
-            ))}
+            <form>
+              <input type="text" placeholder="Agrega un comentario" />
+              <button type="submit">Publicar</button>
+            </form>
           </ul>
         </div>
       </dialog>
