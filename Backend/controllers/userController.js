@@ -4,10 +4,12 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
-exports.user_list = function (req, res, next) {
-  res.render("index", { title: "Express" });
+exports.user_list = (req, res, next) => {
+  res.send("Hello World!");
 };
 
+//account creation
+//no json token code here, only bcrypt
 exports.user_signup = [
   // Validate body and sanitize fields.
   body("username", "username must be specified")
@@ -28,14 +30,14 @@ exports.user_signup = [
     console.log(`body content is:${JSON.stringify(req.body)}`);
 
     const plainPassword = req.body.password;
-    const hashedPassword = await hash(plainPassword, 10);
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const user = new User({
       password: hashedPassword,
       username: req.body.username,
     });
 
-    const usernameTaken = await find({ username: req.body.username });
+    const usernameTaken = await User.find({ username: req.body.username });
 
     if (!errors.isEmpty()) {
       // There are errors.
@@ -56,6 +58,7 @@ exports.user_signup = [
   }),
 ];
 
+//log in
 exports.user_signin = [
   // Validate body and sanitize fields.
   body("username", "username must be specified")
@@ -76,7 +79,7 @@ exports.user_signin = [
     console.log("user sign in controller");
     console.log(`body content is:${JSON.stringify(req.body)}`);
 
-    const user = await find({ username: req.body.username });
+    const user = await User.find({ username: req.body.username });
     console.log(req.body.username);
     if (!errors.isEmpty()) {
       // There are errors.
@@ -89,7 +92,7 @@ exports.user_signin = [
       return;
     } else {
       // Data from form is valid
-      compare(req.body.password, user[0].password, (err, result) => {
+      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
         if (err) {
           // Handle bcrypt error
           res.status(500).json({ error: "Internal server error" });
@@ -99,7 +102,7 @@ exports.user_signin = [
         if (result) {
           // Passwords match, user is authenticated
           console.log("passwords match");
-          sign({ user }, "secretkey", (err, token) => {
+          jwt.sign({ user }, "secretkey", (err, token) => {
             if (err) {
               // Handle error
               res.status(500).json({ error: "Error signing the token" });
@@ -136,11 +139,12 @@ function getBearerHeaderToSetTokenStringOnReq(req, res, next) {
   }
 }
 
+//verify further auth after initial log in
 exports.user_auth = [
   getBearerHeaderToSetTokenStringOnReq,
   asyncHandler(async (req, res, next) => {
     //authData is what i passed in the jwt.sign
-    verify(req.token, "secretkey", (err, authData) => {
+    jwt.verify(req.token, "secretkey", (err, authData) => {
       if (err) {
         res.sendStatus(403);
       } else {
@@ -149,61 +153,3 @@ exports.user_auth = [
     });
   }),
 ];
-
-//////////////////////////////
-
-//* Get user profile
-// @route GET /users/profile/id
-// @access Private
-exports.getUserProfile = asyncHandler(async (req, res, next) => {
-  const userId = req.params.id;
-  const user = await User.findById(userId);
-
-  if (!user) {
-    res.status(404);
-    throw new Error("💥User not found");
-  }
-
-  // Send Response 🛩️
-  res.status(200).json({
-    status: "success",
-    data: { user },
-  });
-});
-
-//* Get users
-// @route GET  /users
-// @access Public
-exports.getUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find({});
-
-  if (!users) {
-    res.status(404);
-    throw new Error("💥Users not found");
-  }
-
-  // Send Response 🛩️
-  res.status(200).json({
-    status: "success",
-    data: { users },
-  });
-});
-
-//* Update user profile
-// @route PATCH  /users/profile/id
-// @access Private
-exports.updateUserProfile = asyncHandler(async (req, res, next) => {
-  const options = { new: true, runValidators: false };
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, options);
-
-  if (!user) {
-    res.status(404);
-    throw new Error("💥User not found");
-  }
-
-  // Send Response 🛩️
-  res.status(200).json({
-    status: "success",
-    data: { user },
-  });
-});

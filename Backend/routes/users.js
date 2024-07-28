@@ -1,17 +1,19 @@
 var express = require("express");
-const userController = require("../controllers/userController");
+var router = express.Router();
+const user_controller = require("../controllers/userController");
 
-//////////////////////
+/* GET home page. */
+router.get("/", user_controller.user_list);
+console.log(`${process.env.NODE_ENV !== "production"}`);
+if (process.env.NODE_ENV !== "production") {
+  // Only enable this route in development
+  console.log(`node env: ${process.env.NODE_ENV}`);
+  router.post("/signup", user_controller.user_signup);
+}
 
-const router = express.Router();
+//sends token on 200
+router.post("/signin", user_controller.user_signin);
 
-router.route("/").get(userController.getUsers);
-
-//* Estas rutas tiene que ser protegidas, hay que crear un Middleware
-// The user must be registered
-router
-  .route("/profile/:id")
-  .get(userController.getUserProfile)
-  .patch(userController.updateUserProfile);
+router.post("/auth", user_controller.user_auth);
 
 module.exports = router;

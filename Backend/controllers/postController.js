@@ -29,14 +29,15 @@ exports.post_create = [
 
   body("imageURL", "Image URL is required")
     .trim()
-    .escape()
+
     .isLength({ min: 1 })
     .custom((value) => {
       if (!isURL(value)) {
         throw new Error("Invalid image URL");
       }
       return true;
-    }),
+    })
+    .escape(),
   body("category", "category must be specified").trim().isIn(categoryEnum),
   body("description")
     .optional() // Allows the field to be absent
@@ -70,12 +71,12 @@ exports.post_create = [
 
       description: req.body?.description,
       createdAt: req.body.createdAt,
-      userID: req.body.userId,
+      userId: req.body.userId,
     });
 
     if (!errors.isEmpty()) {
       // There are errors.
-
+      console.log(errors);
       res.status(422).json({ error: "Validation from header body failed" });
       return;
     } else {
@@ -92,7 +93,7 @@ exports.post_create = [
 ];
 
 exports.post_list = asyncHandler(async (req, res, next) => {
-  const posts = await find().sort({ price: -1 }).exec();
+  const posts = await Post.find().sort({ description: -1 }).exec();
   console.log(`response is ${JSON.stringify(posts)}`);
   res.json(posts);
 });
@@ -139,14 +140,15 @@ exports.post_update = [
     }),
   body("imageURL", "Image URL is required")
     .trim()
-    .escape()
+
     .isLength({ min: 1 })
     .custom((value) => {
       if (!isURL(value)) {
         throw new Error("Invalid image URL");
       }
       return true;
-    }),
+    })
+    .escape(),
   body("category", "category must be specified").trim().isIn(categoryEnum),
   body("description")
     .optional() // Allows the field to be absent
@@ -180,11 +182,12 @@ exports.post_update = [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors);
       res.status(422).json({ error: "Validation failed" });
     } else {
       try {
         verify(req.token, "secretkey");
-        await findByIdAndUpdate(req.params.id, updatedPost, {});
+        await Post.findByIdAndUpdate(req.params.id, updatedPost, {});
 
         res.status(200).json({});
       } catch (error) {
@@ -201,7 +204,7 @@ exports.post_delete = [
     try {
       //if v erification vails , an error will be thrown
       verify(req.token, "secretkey");
-      await findByIdAndDelete(req.params.id);
+      await Post.findByIdAndDelete(req.params.id);
       res.status(200).json({ message: "post deleted" });
     } catch (error) {
       console.log(`error : ${error}`);
