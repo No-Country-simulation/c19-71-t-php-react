@@ -25,6 +25,7 @@ export const Login = () => {
 
       if (data.token) {
         sessionStorage.setItem("authToken", data.token);
+        console.log(`token is : ${data.token}`);
         navigate("/feed");
       } else {
         Swal.fire({

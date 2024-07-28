@@ -10,7 +10,7 @@ import { updateUserProfile } from "../../service/apiUser";
 const inputStyle =
   "px-4 py-2 rounded-xl bg-[#eaeaeada] outline-none border-2 border-[transparent] focus:border-[#2c48d1] focus:border-2";
 
-function UpdateUserDataForm() {
+function UpdateUserDataForm({ user }) {
   const [photo, setPhoto] = useState();
 
   const { register, handleSubmit, formState, getValues } = useForm();
@@ -19,7 +19,7 @@ function UpdateUserDataForm() {
   function onSubmit(value) {
     const data = { ...value, avatar: photo };
 
-    updateUserProfile({ userId: `66a5b02dc2f25dbe71c4c9ff`, data });
+    updateUserProfile({ userId: user._id, data });
   }
 
   return (
