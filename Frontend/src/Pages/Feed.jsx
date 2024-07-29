@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import Category from "../Components/Category";
 import { useSearchParams } from "react-router-dom";
-
+import Navbar from "../Components/Navbar";
 const numberOfPostToFetch = 12;
 
 export default function Feed({ user }) {
@@ -61,7 +61,7 @@ export default function Feed({ user }) {
   return (
     <div className="relative">
       <Category />
-
+      <Navbar />
       {!posts ? (
         <p>Loading posts...</p>
       ) : (
