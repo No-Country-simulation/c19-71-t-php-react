@@ -16,6 +16,28 @@ export default function Post({
   const [comments, setComments] = useState();
   const [authorUser, setAuthorUser] = useState();
   const formRef = useRef(null);
+
+  function getTranslatedCategory(category) {
+    const translations = [
+      { filterField: "all", value: "Todas" },
+      { filterField: "politics", value: "Política" },
+      { filterField: "sports", value: "Deporte" },
+      { filterField: "movies", value: "Cine" },
+      { filterField: "music", value: "Música" },
+      { filterField: "science", value: "Ciencia" },
+      { filterField: "fashion", value: "Moda" },
+      { filterField: "travel", value: "Viaje" },
+      { filterField: "astrology", value: "Astrología" },
+      { filterField: "cooking", value: "Cocina" },
+      { filterField: "weather", value: "Clima" },
+    ];
+
+    const translation = translations.find(
+      (item) => item.filterField === category
+    );
+    return translation ? translation.value : "Categoría no encontrada";
+  }
+
   useEffect(() => {
     async function fetchUserData() {
       const apiUrl = `http://localhost:3000/users/${userId}`;
@@ -141,7 +163,8 @@ export default function Post({
                 <div className={`${commentsStyle}  `}>
                   <Avatar imageUrl={authorUser?.avatar} />{" "}
                   <p>
-                    {authorUser?.username} <b>#{category}</b>
+                    {authorUser?.username}{" "}
+                    <b>#{getTranslatedCategory(category)}</b>
                   </p>
                 </div>
                 <p className={`${commentsStyle} pt-0`}>{description}</p>
@@ -165,6 +188,7 @@ export default function Post({
               <input
                 type="text"
                 name="comment"
+                autoComplete="off"
                 placeholder="Agrega un comentario"
               />
               <button type="submit">Publicar</button>
@@ -184,7 +208,7 @@ export default function Post({
             {authorUser?.username}
             <span>•</span>
             <span className="font-normal">{getPublicationDate(date)}</span>{" "}
-            <span>#{category}</span>
+            <span>#{getTranslatedCategory(category)}</span>
           </p>
         </div>
         <div

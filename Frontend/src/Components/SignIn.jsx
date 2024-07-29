@@ -63,36 +63,45 @@ export default function SignIn({ setOpenModal }) {
       <div className="flex flex-wrap gap-10 justify-center  ">
         <input
           className={inputStyle}
-          type="text "
+          type="text"
           name="name"
+          autoComplete="name"
           placeholder="NOMBRE"
           required
         />
+
         <input
           className={inputStyle}
           type="text"
           name="lastName"
+          autoComplete="family-name"
           placeholder="APELLIDO"
           required
         />
+
         <input
           className={inputStyle}
           type="text"
           name="username"
+          autoComplete="username"
           placeholder="USUARIO"
           required
         />
+
         <input
           className={inputStyle}
           type="email"
           name="email"
+          autoComplete="email"
           placeholder="EMAIL"
           required
         />
+
         <input
           className={inputStyle}
           type="password"
           name="password"
+          autoComplete="new-password"
           placeholder="CONTRASEÑA"
           required
         />
