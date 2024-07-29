@@ -11,6 +11,23 @@ exports.user_list = asyncHandler(async (req, res, next) => {
   res.json(users);
 });
 
+exports.user_get = asyncHandler(async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    console.log(user);
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 //account creation
 //no json token code here, only bcrypt
 exports.user_signup = [
