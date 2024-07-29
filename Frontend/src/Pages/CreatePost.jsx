@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-
+import Swal from "sweetalert2";
 export default function CreatePost({ user }) {
   const [description, setDescription] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [category, setCategory] = useState("politics"); // Default category
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = sessionStorage.getItem("authToken");
-    /*    if (!token) {
-      setError('User not authenticated');
-      return;
-    } */
 
     try {
       const response = await fetch("http://localhost:3000/posts", {
@@ -36,14 +31,22 @@ export default function CreatePost({ user }) {
 
       const data = await response.json();
       console.log("Post created:", data);
+      Swal.fire({
+        title: "Post creada",
+
+        icon: "success",
+      });
       // Clear the form
       setDescription("");
       setImageURL("");
       setCategory("politics"); // Reset to default category
-      setError(null);
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      Swal.fire({
+        title: err.message,
+
+        icon: "error",
+      });
     }
   };
   const inputStyle = "border-2 border-black rounded p-2";
@@ -56,6 +59,7 @@ export default function CreatePost({ user }) {
           className={inputStyle}
           name="description"
           type="text"
+          required
           placeholder="descripcion"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -66,9 +70,11 @@ export default function CreatePost({ user }) {
           type="text"
           placeholder="URL de la imagen"
           value={imageURL}
+          required
           onChange={(e) => setImageURL(e.target.value)}
         />
         <select
+          required
           className={inputStyle}
           name="category"
           value={category}
@@ -85,7 +91,7 @@ export default function CreatePost({ user }) {
           <option value="cooking">Cocina</option>
           <option value="weather">Clima</option>
         </select>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <button type="submit" className={inputStyle}>
           Crear
         </button>
