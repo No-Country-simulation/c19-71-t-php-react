@@ -149,7 +149,11 @@ export default function Post({
                 />
               ))}
             </div>
-            <form ref={formRef} onSubmit={postComment}>
+            <form
+              ref={formRef}
+              onSubmit={postComment}
+              className="flex px-3 gap-5"
+            >
               <input
                 type="text"
                 name="comment"

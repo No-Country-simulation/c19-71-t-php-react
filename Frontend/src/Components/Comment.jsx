@@ -31,9 +31,7 @@ export default function Comment({
       <Avatar imageUrl={author?.avatar} />
       <div className="flex  flex-col gap-1">
         <p>
-          <span>{author?.name}</span>
-
-          {message}
+          <span className="font-bold">{author?.name}</span> {message}
         </p>
         <p>{getPublicationDate(date)}</p>
       </div>
