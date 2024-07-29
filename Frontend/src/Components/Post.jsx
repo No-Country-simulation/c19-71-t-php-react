@@ -134,13 +134,16 @@ export default function Post({
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col justify-between">
+          <ul className="flex flex-col justify-between w-[500px]">
             <div>
-              <div className={`${commentsStyle} border-b-2`}>
-                <Avatar imageUrl={avatar} />{" "}
-                <p>
-                  {username} <b>#{category}</b>
-                </p>
+              <div className="border-b-2">
+                <div className={`${commentsStyle}  `}>
+                  <Avatar imageUrl={avatar} />{" "}
+                  <p>
+                    {username} <b>#{category}</b>
+                  </p>
+                </div>
+                <p className={`${commentsStyle} pt-0`}>{description}</p>
               </div>
               {comments?.map((comment) => (
                 <Comment
