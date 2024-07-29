@@ -103,7 +103,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
   query = query.sort({ createdAt: -1 });
 
   // Add category filter if provided
-  if (category) {
+  if (category && category !== "all") {
     query = query.where("category").equals(category);
   }
 

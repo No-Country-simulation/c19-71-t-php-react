@@ -14,6 +14,10 @@ export default function Feed({ user }) {
 
   const [searchParams] = useSearchParams();
 
+  useEffect(() => {
+    console.log(`seachParams is: ${searchParams}`);
+  }, [searchParams]);
+
   // 1) FILTER
   const filterValue = searchParams.get("categoria") || "all";
   // let filteredPosts;
@@ -24,7 +28,9 @@ export default function Feed({ user }) {
 
   useEffect(() => {
     async function fetchPosts() {
-      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}`;
+      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}${
+        searchParams ? `&${searchParams}` : ""
+      }`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
@@ -37,7 +43,7 @@ export default function Feed({ user }) {
     }
 
     fetchPosts(); //
-  }, [numberOfPostFetched]);
+  }, [numberOfPostFetched, searchParams]);
 
   function handleScroll() {
     if (
