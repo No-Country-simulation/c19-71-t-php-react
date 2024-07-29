@@ -5,6 +5,7 @@ export default function Post({
   imageUrl,
   description,
   date,
+  category,
   id,
   userId,
   currentUser,
@@ -136,7 +137,10 @@ export default function Post({
           <ul className="flex flex-col justify-between">
             <div>
               <div className={`${commentsStyle} border-b-2`}>
-                <Avatar imageUrl={avatar} /> <p>{username}</p>
+                <Avatar imageUrl={avatar} />{" "}
+                <p>
+                  {username} <b>#{category}</b>
+                </p>
               </div>
               {comments?.map((comment) => (
                 <Comment
@@ -170,7 +174,8 @@ export default function Post({
           <p className="font-bold flex gap-2">
             {username}
             <span>•</span>
-            <span className="font-normal">{getPublicationDate(date)}</span>
+            <span className="font-normal">{getPublicationDate(date)}</span>{" "}
+            <span>#{category}</span>
           </p>
         </div>
         <div

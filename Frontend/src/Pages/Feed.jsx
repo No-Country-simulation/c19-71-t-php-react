@@ -74,6 +74,7 @@ export default function Feed({ user }) {
               date={post.createdAt}
               userId={post.userId}
               id={post._id}
+              category={post.category}
               currentUser={user}
             />
           ))}
