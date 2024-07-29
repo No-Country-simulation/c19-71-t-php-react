@@ -12,6 +12,13 @@ const AppRoutes = () => {
   const token = sessionStorage.getItem("authToken");
 
   useEffect(() => {
+    if (!user) {
+      console.log(`the user is logged out`);
+    }
+  }, [user]);
+
+  //fetch user data
+  useEffect(() => {
     if (token) {
       // Fetch user info using the token (assuming you have an API endpoint for this)
       fetch("http://localhost:3000/users/auth", {
@@ -36,22 +43,29 @@ const AppRoutes = () => {
     }
   }, [token]);
   const routes = useRoutes([
-    { path: "/", element: <Home /> },
+    {
+      path: "/",
+      element: user ? <Feed user={user} setUser={setUser} /> : <Home />,
+    },
     {
       path: "/myProfile",
-      element: token ? <MyProfile user={user} /> : <Home />,
+      element: user ? <MyProfile user={user} /> : <Home />,
     },
     {
       path: "/updateProfile",
-      element: token ? <UpdateProfile user={user} /> : <Home />,
+      element: user ? <UpdateProfile user={user} /> : <Home />,
     },
     {
       path: "/feed",
-      element: token ? <Feed user={user} /> : <Home user={user} />,
+      element: user ? (
+        <Feed user={user} setUser={setUser} />
+      ) : (
+        <Home user={user} />
+      ),
     },
     {
       path: "/createPost",
-      element: token ? <CreatePost user={user} /> : <Home />,
+      element: user ? <CreatePost user={user} /> : <Home />,
     },
     { path: "/*", element: <NotFound /> },
   ]);

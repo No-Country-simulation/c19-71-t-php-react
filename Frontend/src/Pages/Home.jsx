@@ -4,13 +4,6 @@ import { Modal } from "../Components/Modal";
 import SignIn from "../Components/SignIn";
 
 export const Home = () => {
-  //sacar el token para iniciar el componente
-  //de esta forma cuando se ingresa a esta ruta desde cualquier
-  //otra pagina, se cierra sesión
-  useEffect(() => {
-    sessionStorage.removeItem("authToken");
-  }, []);
-
   const [openModal, setOpenModal] = useState(false);
   return (
     <div className="w-screen   flex justify-center  ">

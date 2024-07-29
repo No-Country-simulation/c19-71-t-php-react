@@ -1,5 +1,5 @@
-import UserProfile from '../Components/user/UserProfile'
+import UserProfile from "../Components/user/UserProfile";
 
-export const MyProfile = () => {
-  return <UserProfile />
-}
+export const MyProfile = (user) => {
+  return <UserProfile user={user} />;
+};

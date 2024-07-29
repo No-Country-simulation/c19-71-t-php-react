@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-export default function Navbar() {
+export default function Navbar({ setUser }) {
   const linkStyle = "p-4 border-2  uppercase text-center font-bold bg-white";
 
   const links = [
@@ -8,7 +8,6 @@ export default function Navbar() {
     { name: "feed", path: "feed" },
     { name: "crear post", path: "createPost" },
     { name: "editar perfil", path: "updateProfile" },
-    { name: "salir", path: "" },
   ];
   return (
     <div className="fixed h-full right-0  bg-black p-4 flex items-center">
@@ -20,6 +19,17 @@ export default function Navbar() {
             </Link>
           </li>
         ))}
+        <li className="grid">
+          <a
+            className={linkStyle}
+            onClick={() => {
+              sessionStorage.removeItem("authToken");
+              setUser("");
+            }}
+          >
+            Salir
+          </a>
+        </li>
       </ul>
     </div>
   );

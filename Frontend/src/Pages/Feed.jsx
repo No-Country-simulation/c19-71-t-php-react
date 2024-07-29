@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 const numberOfPostToFetch = 12;
 
-export default function Feed({ user }) {
+export default function Feed({ user, setUser }) {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
   const [numberOfPostFetched, setNumberOfPostFetched] =
     useState(numberOfPostToFetch);
@@ -61,7 +61,7 @@ export default function Feed({ user }) {
   return (
     <div className="relative">
       <Category />
-      <Navbar />
+      <Navbar setUser={setUser} />
       {!posts ? (
         <p>Loading posts...</p>
       ) : (
