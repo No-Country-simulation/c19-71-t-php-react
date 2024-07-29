@@ -2,7 +2,7 @@ import { useRoutes, BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Home } from "./Pages/Home";
-import { MyProfile } from "./Pages/MyProfile";
+import UserProfile from "./Pages/UserProfile";
 import { NotFound } from "./Pages/NotFound";
 import Feed from "./Pages/Feed";
 import UpdateProfile from "./Pages/UpdateProfile";
@@ -48,8 +48,8 @@ const AppRoutes = () => {
       element: user ? <Feed user={user} setUser={setUser} /> : <Home />,
     },
     {
-      path: "/myProfile",
-      element: user ? <MyProfile user={user} /> : <Home />,
+      path: "/profile",
+      element: user ? <UserProfile user={user} /> : <Home />,
     },
     {
       path: "/updateProfile",

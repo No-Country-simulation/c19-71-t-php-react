@@ -1,6 +1,4 @@
-import Button from "../Button";
-
-function UserInfo({ user }) {
+function UserInfo({ user, children }) {
   // change
   const publications = 0;
   const followers = 0;
@@ -12,7 +10,7 @@ function UserInfo({ user }) {
           {user.name} {user.lastName}
         </h2>
 
-        <Button type="primary">Seguir</Button>
+        {children}
       </div>
 
       <div className="flex gap-6 items-center ">

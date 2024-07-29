@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import Comment from "./Comment";
 export default function Post({
@@ -10,9 +11,10 @@ export default function Post({
   userId,
   currentUser,
 }) {
-  const [avatar, setAvatar] = useState(`dummy image`);
-  const [username, setUsername] = useState();
+  const navigate = useNavigate();
+
   const [comments, setComments] = useState();
+  const [authorUser, setAuthorUser] = useState();
   const formRef = useRef(null);
   useEffect(() => {
     async function fetchUserData() {
@@ -21,8 +23,7 @@ export default function Post({
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
         console.log(data);
-        setAvatar(data.avatar);
-        setUsername(data.username);
+        setAuthorUser(data);
       } catch (error) {
         console.error("Error fetching posts:", error);
         // Handle errors gracefully, e.g., display an error message to the user
@@ -138,9 +139,9 @@ export default function Post({
             <div>
               <div className="border-b-2">
                 <div className={`${commentsStyle}  `}>
-                  <Avatar imageUrl={avatar} />{" "}
+                  <Avatar imageUrl={authorUser?.avatar} />{" "}
                   <p>
-                    {username} <b>#{category}</b>
+                    {authorUser?.username} <b>#{category}</b>
                   </p>
                 </div>
                 <p className={`${commentsStyle} pt-0`}>{description}</p>
@@ -172,10 +173,15 @@ export default function Post({
         </div>
       </dialog>
       <div className="flex flex-col gap-3 py-20">
-        <div className="flex gap-3 items-center">
-          <Avatar imageUrl={avatar} />
+        <div
+          className="flex gap-3 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/profile", { state: { authorUser } });
+          }}
+        >
+          <Avatar imageUrl={authorUser?.avatar} />
           <p className="font-bold flex gap-2">
-            {username}
+            {authorUser?.username}
             <span>•</span>
             <span className="font-normal">{getPublicationDate(date)}</span>{" "}
             <span>#{category}</span>

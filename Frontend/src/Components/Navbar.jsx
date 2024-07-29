@@ -4,7 +4,7 @@ export default function Navbar({ setUser }) {
   const linkStyle = "p-4 border-2  uppercase text-center font-bold bg-white";
 
   const links = [
-    { name: "perfil", path: "myprofile" },
+    { name: "perfil", path: "profile" },
     { name: "feed", path: "feed" },
     { name: "crear post", path: "createPost" },
     { name: "editar perfil", path: "updateProfile" },
