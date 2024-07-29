@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import Category from "../Components/Category";
 import { useSearchParams } from "react-router-dom";
+import { Sidebar } from '../Components/Sidebar'
 
 const numberOfPostToFetch = 12;
 
@@ -55,7 +56,13 @@ export default function Feed() {
 
   return (
     <div className="relative">
-      <Category />
+      <div className=" flex  bg-gray-200 h-screen w-56"> 
+        <Sidebar/>
+       
+          <Category />
+     
+      </div>
+      
 
       {!posts ? (
         <p>Loading posts...</p>

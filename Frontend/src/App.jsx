@@ -9,7 +9,7 @@ import UpdateProfile from "./Pages/UpdateProfile";
 import CreatePost from "./Pages/CreatePost";
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
-  const token = sessionStorage.getItem("authToken");
+  let token = sessionStorage.getItem("authToken");
 
   useEffect(() => {
     if (token) {
@@ -35,6 +35,7 @@ const AppRoutes = () => {
         });
     }
   }, [token]);
+  token = 'asdf' /////JFGT
   const routes = useRoutes([
     { path: "/", element: <Home /> },
     {
