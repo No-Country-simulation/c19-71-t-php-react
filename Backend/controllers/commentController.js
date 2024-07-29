@@ -1,4 +1,4 @@
-const {Post} = require("../models/post");
+const { Post } = require("../models/post");
 const User = require("../models/user");
 const Comment = require("../models/comments");
 const asyncHandler = require("express-async-handler");
@@ -27,11 +27,8 @@ exports.addComments = [
   getBearerHeaderToSetTokenStringOnReq,
   // Validate body and sanitize fields.
 
-  body("comment", "Comment is required")
-    .trim()
-    .escape()
-    .isLength({ min: 1 }),
-  body("createdAt", "Invalid createdAt format").isISO8601(),
+  body("comment", "Comment is required").trim().escape().isLength({ min: 1 }),
+
   body("userId", "Invalid userId")
     .isMongoId() // Basic check for valid ObjectId format
     .custom(async (value) => {
@@ -42,14 +39,14 @@ exports.addComments = [
       return true;
     }),
   body("postId", "Invalid postId")
-  .isMongoId() // Basic check for valid ObjectId format
-  .custom(async (value) => {
-    const post = await Post.findById(value);
-    if (!post) {
-      throw new Error("Post not found");
-    }
-    return true;
-  }),
+    .isMongoId() // Basic check for valid ObjectId format
+    .custom(async (value) => {
+      const post = await Post.findById(value);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      return true;
+    }),
   // Process request after validation and sanitization.
 
   async (req, res, next) => {
@@ -62,9 +59,9 @@ exports.addComments = [
 
     const comment = new Comment({
       comment: req.body.comment,
-      createdAt: req.body.createdAt,
+      createdAt: new Date(),
       userId: req.body.userId,
-      postId: req.body.postId
+      postId: req.body.postId,
     });
 
     if (!errors.isEmpty()) {
@@ -86,8 +83,8 @@ exports.addComments = [
 ];
 
 exports.commentsList = asyncHandler(async (req, res) => {
-  const postId = req.params.postId
-  const comments = await Comment.find({postId: postId});
+  const postId = req.params.postId;
+  const comments = await Comment.find({ postId: postId });
   console.log(comments);
   res.json(comments);
 });

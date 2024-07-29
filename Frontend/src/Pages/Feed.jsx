@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import Post from "../Components/Post";
 import Category from "../Components/Category";
 import { useSearchParams } from "react-router-dom";
+
 import { Sidebar } from '../Components/Sidebar'
+
 
 const numberOfPostToFetch = 12;
 
-export default function Feed() {
+export default function Feed({ user, setUser }) {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
   const [numberOfPostFetched, setNumberOfPostFetched] =
     useState(numberOfPostToFetch);
@@ -14,6 +16,10 @@ export default function Feed() {
   ////////////////////////////
 
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    console.log(`seachParams is: ${searchParams}`);
+  }, [searchParams]);
 
   // 1) FILTER
   const filterValue = searchParams.get("categoria") || "all";
@@ -25,8 +31,9 @@ export default function Feed() {
 
   useEffect(() => {
     async function fetchPosts() {
-      /* const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`; */
-      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}`;
+      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}${
+        searchParams ? `&${searchParams}` : ""
+      }`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
@@ -38,8 +45,8 @@ export default function Feed() {
       }
     }
 
-    fetchPosts(); // Call the function to fetch posts on component mount
-  }, [numberOfPostFetched]); // Empty dependency array to fetch posts only once on mount
+    fetchPosts(); //
+  }, [numberOfPostFetched, searchParams]);
 
   function handleScroll() {
     if (
@@ -56,6 +63,7 @@ export default function Feed() {
 
   return (
     <div className="relative">
+
       <div className=" flex bg-red-400"> 
     
         <Category />
@@ -63,6 +71,7 @@ export default function Feed() {
       
       </div>
       
+
 
       {!posts ? (
         <p>Loading posts...</p>
@@ -76,6 +85,8 @@ export default function Feed() {
               date={post.createdAt}
               userId={post.userId}
               id={post._id}
+              category={post.category}
+              currentUser={user}
             />
           ))}
         </ul>

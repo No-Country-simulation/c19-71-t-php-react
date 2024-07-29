@@ -1,10 +1,43 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import Comment from "./Comment";
-export default function Post({ imageUrl, description, date, id, userId }) {
-  const [avatar, setAvatar] = useState(`dummy image`);
-  const [username, setUsername] = useState();
+export default function Post({
+  imageUrl,
+  description,
+  date,
+  category,
+  id,
+  userId,
+  currentUser,
+}) {
+  const navigate = useNavigate();
+
   const [comments, setComments] = useState();
+  const [authorUser, setAuthorUser] = useState();
+  const formRef = useRef(null);
+
+  function getTranslatedCategory(category) {
+    const translations = [
+      { filterField: "all", value: "Todas" },
+      { filterField: "politics", value: "Política" },
+      { filterField: "sports", value: "Deporte" },
+      { filterField: "movies", value: "Cine" },
+      { filterField: "music", value: "Música" },
+      { filterField: "science", value: "Ciencia" },
+      { filterField: "fashion", value: "Moda" },
+      { filterField: "travel", value: "Viaje" },
+      { filterField: "astrology", value: "Astrología" },
+      { filterField: "cooking", value: "Cocina" },
+      { filterField: "weather", value: "Clima" },
+    ];
+
+    const translation = translations.find(
+      (item) => item.filterField === category
+    );
+    return translation ? translation.value : "Categoría no encontrada";
+  }
+
   useEffect(() => {
     async function fetchUserData() {
       const apiUrl = `http://localhost:3000/users/${userId}`;
@@ -12,8 +45,7 @@ export default function Post({ imageUrl, description, date, id, userId }) {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
         console.log(data);
-        setAvatar(data.avatar);
-        setUsername(data.username);
+        setAuthorUser(data);
       } catch (error) {
         console.error("Error fetching posts:", error);
         // Handle errors gracefully, e.g., display an error message to the user
@@ -23,20 +55,19 @@ export default function Post({ imageUrl, description, date, id, userId }) {
     fetchUserData(); // Call the function to fetch posts on component mount
   }, []);
 
-  useEffect(() => {
-    async function fetchComments() {
-      const apiUrl = `http://localhost:3000/comments/${id}`;
-      try {
-        const response = await fetch(apiUrl); // Replace with your actual API endpoint
-        const data = await response.json();
-        console.log(data);
-        setComments(data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        // Handle errors gracefully, e.g., display an error message to the user
-      }
+  async function fetchComments() {
+    const apiUrl = `http://localhost:3000/comments/${id}`;
+    try {
+      const response = await fetch(apiUrl); // Replace with your actual API endpoint
+      const data = await response.json();
+      console.log(data);
+      setComments(data);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      // Handle errors gracefully, e.g., display an error message to the user
     }
-
+  }
+  useEffect(() => {
     fetchComments(); // Call the function to fetch posts on component mount
   }, []);
 
@@ -74,6 +105,41 @@ export default function Post({ imageUrl, description, date, id, userId }) {
     }
   }
 
+  const postComment = async (e) => {
+    e.preventDefault();
+
+    const token = sessionStorage.getItem("authToken");
+    const form = formRef.current;
+    const input = form.elements.comment;
+    try {
+      const response = await fetch("http://localhost:3000/comments", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: input.value,
+
+          userId: currentUser._id,
+          postId: id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create post");
+      }
+
+      const data = await response.json();
+      console.log("Post created:", data);
+      form.reset();
+      fetchComments();
+      // Clear the form
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   function openModal() {
     const modal = dialogRef.current;
     modal.showModal();
@@ -91,39 +157,58 @@ export default function Post({ imageUrl, description, date, id, userId }) {
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col justify-between">
+          <ul className="flex flex-col justify-between w-[500px]">
             <div>
-              <div className={`${commentsStyle} border-b-2`}>
-                <Avatar imageUrl={avatar} /> <p>{username}</p>
+              <div className="border-b-2">
+                <div className={`${commentsStyle}  `}>
+                  <Avatar imageUrl={authorUser?.avatar} />{" "}
+                  <p>
+                    {authorUser?.username}{" "}
+                    <b>#{getTranslatedCategory(category)}</b>
+                  </p>
+                </div>
+                <p className={`${commentsStyle} pt-0`}>{description}</p>
               </div>
-              {comments?.map((comment, index) => (
+              {comments?.map((comment) => (
                 <Comment
                   className={commentsStyle}
-                  key={index}
-                  date={comment.date}
+                  key={comment._id}
+                  date={comment.createdAt}
                   getPublicationDate={getPublicationDate}
                   message={comment.comment}
-                  author={{
-                    name: comment.reviewerName,
-                    avatar: "https://i.pravatar.cc/300",
-                  }}
+                  authorId={comment.userId}
                 />
               ))}
             </div>
-            <form>
-              <input type="text" placeholder="Agrega un comentario" />
+            <form
+              ref={formRef}
+              onSubmit={postComment}
+              className="flex px-3 gap-5"
+            >
+              <input
+                type="text"
+                name="comment"
+                autoComplete="off"
+                placeholder="Agrega un comentario"
+              />
               <button type="submit">Publicar</button>
             </form>
           </ul>
         </div>
       </dialog>
       <div className="flex flex-col gap-3 py-20">
-        <div className="flex gap-3 items-center">
-          <Avatar imageUrl={avatar} />
+        <div
+          className="flex gap-3 items-center cursor-pointer"
+          onClick={() => {
+            navigate("/profile", { state: { authorUser } });
+          }}
+        >
+          <Avatar imageUrl={authorUser?.avatar} />
           <p className="font-bold flex gap-2">
-            {username}
+            {authorUser?.username}
             <span>•</span>
-            <span className="font-normal">{getPublicationDate(date)}</span>
+            <span className="font-normal">{getPublicationDate(date)}</span>{" "}
+            <span>#{getTranslatedCategory(category)}</span>
           </p>
         </div>
         <div

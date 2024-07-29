@@ -2,7 +2,7 @@ import { useRoutes, BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Home } from "./Pages/Home";
-import { MyProfile } from "./Pages/MyProfile";
+import UserProfile from "./Pages/UserProfile";
 import { NotFound } from "./Pages/NotFound";
 import Feed from "./Pages/Feed";
 import UpdateProfile from "./Pages/UpdateProfile";
@@ -11,6 +11,13 @@ const AppRoutes = () => {
   const [user, setUser] = useState(null);
   let token = sessionStorage.getItem("authToken");
 
+  useEffect(() => {
+    if (!user) {
+      console.log(`the user is logged out`);
+    }
+  }, [user]);
+
+  //fetch user data
   useEffect(() => {
     if (token) {
       // Fetch user info using the token (assuming you have an API endpoint for this)
@@ -37,19 +44,29 @@ const AppRoutes = () => {
   }, [token]);
   token = 'asdf' /////JFGT
   const routes = useRoutes([
-    { path: "/", element: <Home /> },
     {
-      path: "/myProfile",
-      element: token ? <MyProfile user={user} /> : <Home />,
+      path: "/",
+      element: user ? <Feed user={user} setUser={setUser} /> : <Home />,
+    },
+    {
+      path: "/profile",
+      element: user ? <UserProfile user={user} /> : <Home />,
     },
     {
       path: "/updateProfile",
-      element: token ? <UpdateProfile user={user} /> : <Home />,
+      element: user ? <UpdateProfile user={user} /> : <Home />,
     },
-    { path: "/feed", element: token ? <Feed /> : <Home user={user} /> },
+    {
+      path: "/feed",
+      element: user ? (
+        <Feed user={user} setUser={setUser} />
+      ) : (
+        <Home user={user} />
+      ),
+    },
     {
       path: "/createPost",
-      element: token ? <CreatePost user={user} /> : <Home />,
+      element: user ? <CreatePost user={user} /> : <Home />,
     },
     { path: "/*", element: <NotFound /> },
   ]);
