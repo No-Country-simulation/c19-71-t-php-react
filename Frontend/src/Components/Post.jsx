@@ -1,10 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
 import Avatar from "./Avatar";
 import Comment from "./Comment";
-export default function Post({ imageUrl, description, date, id, userId }) {
+export default function Post({
+  imageUrl,
+  description,
+  date,
+  id,
+  userId,
+  currentUser,
+}) {
   const [avatar, setAvatar] = useState(`dummy image`);
   const [username, setUsername] = useState();
   const [comments, setComments] = useState();
+  const formRef = useRef(null);
   useEffect(() => {
     async function fetchUserData() {
       const apiUrl = `http://localhost:3000/users/${userId}`;
@@ -23,20 +31,19 @@ export default function Post({ imageUrl, description, date, id, userId }) {
     fetchUserData(); // Call the function to fetch posts on component mount
   }, []);
 
-  useEffect(() => {
-    async function fetchComments() {
-      const apiUrl = `http://localhost:3000/comments/${id}`;
-      try {
-        const response = await fetch(apiUrl); // Replace with your actual API endpoint
-        const data = await response.json();
-        console.log(data);
-        setComments(data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        // Handle errors gracefully, e.g., display an error message to the user
-      }
+  async function fetchComments() {
+    const apiUrl = `http://localhost:3000/comments/${id}`;
+    try {
+      const response = await fetch(apiUrl); // Replace with your actual API endpoint
+      const data = await response.json();
+      console.log(data);
+      setComments(data);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      // Handle errors gracefully, e.g., display an error message to the user
     }
-
+  }
+  useEffect(() => {
     fetchComments(); // Call the function to fetch posts on component mount
   }, []);
 
@@ -74,6 +81,41 @@ export default function Post({ imageUrl, description, date, id, userId }) {
     }
   }
 
+  const postComment = async (e) => {
+    e.preventDefault();
+
+    const token = sessionStorage.getItem("authToken");
+    const form = formRef.current;
+    const input = form.elements.comment;
+    try {
+      const response = await fetch("http://localhost:3000/comments", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: input.value,
+
+          userId: currentUser._id,
+          postId: id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create post");
+      }
+
+      const data = await response.json();
+      console.log("Post created:", data);
+      form.reset();
+      fetchComments();
+      // Clear the form
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   function openModal() {
     const modal = dialogRef.current;
     modal.showModal();
@@ -96,22 +138,23 @@ export default function Post({ imageUrl, description, date, id, userId }) {
               <div className={`${commentsStyle} border-b-2`}>
                 <Avatar imageUrl={avatar} /> <p>{username}</p>
               </div>
-              {comments?.map((comment, index) => (
+              {comments?.map((comment) => (
                 <Comment
                   className={commentsStyle}
-                  key={index}
-                  date={comment.date}
+                  key={comment._id}
+                  date={comment.createdAt}
                   getPublicationDate={getPublicationDate}
                   message={comment.comment}
-                  author={{
-                    name: comment.reviewerName,
-                    avatar: "https://i.pravatar.cc/300",
-                  }}
+                  authorId={comment.userId}
                 />
               ))}
             </div>
-            <form>
-              <input type="text" placeholder="Agrega un comentario" />
+            <form ref={formRef} onSubmit={postComment}>
+              <input
+                type="text"
+                name="comment"
+                placeholder="Agrega un comentario"
+              />
               <button type="submit">Publicar</button>
             </form>
           </ul>

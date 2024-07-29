@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 
 const numberOfPostToFetch = 12;
 
-export default function Feed() {
+export default function Feed({ user }) {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state
   const [numberOfPostFetched, setNumberOfPostFetched] =
     useState(numberOfPostToFetch);
@@ -69,6 +69,7 @@ export default function Feed() {
               date={post.createdAt}
               userId={post.userId}
               id={post._id}
+              currentUser={user}
             />
           ))}
         </ul>

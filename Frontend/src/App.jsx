@@ -45,7 +45,10 @@ const AppRoutes = () => {
       path: "/updateProfile",
       element: token ? <UpdateProfile user={user} /> : <Home />,
     },
-    { path: "/feed", element: token ? <Feed /> : <Home user={user} /> },
+    {
+      path: "/feed",
+      element: token ? <Feed user={user} /> : <Home user={user} />,
+    },
     {
       path: "/createPost",
       element: token ? <CreatePost user={user} /> : <Home />,
