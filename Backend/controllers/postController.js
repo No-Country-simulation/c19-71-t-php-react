@@ -92,18 +92,31 @@ exports.post_create = [
 ];
 
 exports.post_list = asyncHandler(async (req, res, next) => {
-  const { limit } = req.query;
+  const { limit, category } = req.query;
+  console.log(`limit is : ${limit}`);
+  console.log(`category is : ${category}`);
 
-  const options = {
-    sort: { createdAt: -1 }, // Default sorting by createdAt descending
-  };
+  // Initialize a query
+  let query = Post.find();
 
-  if (limit) {
-    options.limit = parseInt(limit, 10);
+  // Add sorting
+  query = query.sort({ createdAt: -1 });
+
+  // Add category filter if provided
+  if (category) {
+    query = query.where("category").equals(category);
   }
 
-  const posts = await Post.find().setOptions(options).exec();
-  console.log(`response is ${JSON.stringify(posts)}`);
+  // Add limit if provided
+  if (limit) {
+    query = query.limit(parseInt(limit, 10));
+  }
+
+  // Execute the query
+  const posts = await query.exec();
+  console.log(`found posts are ${JSON.stringify(posts)}`);
+
+  // Decode imageURL for each post
   const decodedPosts = posts.map((post) => {
     return {
       ...post.toObject(),
@@ -111,6 +124,8 @@ exports.post_list = asyncHandler(async (req, res, next) => {
     };
   });
   console.log(decodedPosts);
+
+  // Send the response
   res.json(decodedPosts);
 });
 

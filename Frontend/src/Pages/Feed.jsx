@@ -24,7 +24,6 @@ export default function Feed({ user }) {
 
   useEffect(() => {
     async function fetchPosts() {
-      /* const apiUrl = `https://dummyjson.com/products?limit=${numberOfPostFetched}`; */
       const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
@@ -37,8 +36,8 @@ export default function Feed({ user }) {
       }
     }
 
-    fetchPosts(); // Call the function to fetch posts on component mount
-  }, [numberOfPostFetched]); // Empty dependency array to fetch posts only once on mount
+    fetchPosts(); //
+  }, [numberOfPostFetched]);
 
   function handleScroll() {
     if (

@@ -4,30 +4,30 @@ import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
 
 const options = [
   { filterField: "all", value: "Todas" },
-  { filterField: "politica", value: "Política" },
-  { filterField: "deporte", value: "Deporte" },
-  { filterField: "cine", value: "Cine" },
-  { filterField: "musica", value: "Música" },
-  { filterField: "ciencia", value: "Ciencia" },
-  { filterField: "moda", value: "Moda" },
-  { filterField: "viaje", value: "Viaje" },
-  { filterField: "astrologia", value: "Astrología" },
-  { filterField: "cocina", value: "Cocina" },
-  { filterField: "clima", value: "Clima" },
+  { filterField: "politics", value: "Política" },
+  { filterField: "sports", value: "Deporte" },
+  { filterField: "movies", value: "Cine" },
+  { filterField: "music", value: "Música" },
+  { filterField: "science", value: "Ciencia" },
+  { filterField: "fashion", value: "Moda" },
+  { filterField: "travel", value: "Viaje" },
+  { filterField: "astrology", value: "Astrología" },
+  { filterField: "cooking", value: "Cocina" },
+  { filterField: "weather", value: "Clima" },
 ];
 
 function Category() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const activeFilter = searchParams.get("categoria") ?? "all";
+  const activeFilter = searchParams.get("category") ?? "all";
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   function handleFilter(filter) {
-    searchParams.delete("categoria");
+    searchParams.delete("category");
 
-    searchParams.set("categoria", filter);
+    searchParams.set("category", filter);
     setSearchParams(searchParams);
   }
 
