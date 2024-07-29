@@ -56,11 +56,11 @@ export default function Feed() {
 
   return (
     <div className="relative">
-      <div className=" flex  bg-gray-200 h-screen w-56"> 
+      <div className=" flex bg-red-400"> 
+    
+        <Category />
         <Sidebar/>
-       
-          <Category />
-     
+      
       </div>
       
 

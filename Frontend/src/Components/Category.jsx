@@ -32,7 +32,7 @@ function Category() {
   }
 
   return (
-    <div className="fixed h-full">
+    <div className="fixed h-full left-64">
       <div
         className={`relative h-full bg-[#EEEEEE] transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
