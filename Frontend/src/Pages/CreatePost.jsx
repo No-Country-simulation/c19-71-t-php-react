@@ -46,16 +46,14 @@ export default function CreatePost({ user }) {
       setError(err.message);
     }
   };
-
+  const inputStyle = "border-2 border-black rounded p-2";
   return (
     <div className="flex align-middle justify-center">
-      <form
-        className="flex flex-col gap-5 items-center"
-        onSubmit={handleSubmit}
-      >
-        <h2>Crea un post</h2>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      <form className="grid gap-10 items-center py-10" onSubmit={handleSubmit}>
+        <h2 className="font-bold text-2xl">Crea un post</h2>
+
         <input
+          className={inputStyle}
           name="description"
           type="text"
           placeholder="descripcion"
@@ -64,12 +62,14 @@ export default function CreatePost({ user }) {
         />
         <input
           name="imageURL"
+          className={inputStyle}
           type="text"
           placeholder="URL de la imagen"
           value={imageURL}
           onChange={(e) => setImageURL(e.target.value)}
         />
         <select
+          className={inputStyle}
           name="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -85,7 +85,10 @@ export default function CreatePost({ user }) {
           <option value="cooking">Cocina</option>
           <option value="weather">Clima</option>
         </select>
-        <button type="submit">Crear</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit" className={inputStyle}>
+          Crear
+        </button>
       </form>
     </div>
   );
