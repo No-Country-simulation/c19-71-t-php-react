@@ -41,7 +41,7 @@ function UserProfile({ user, setUser }) {
           </UserInfo>
         </div>
 
-        {posts && <UserPublication posts={posts} />}
+        {posts && <UserPublication posts={posts} currentUser={user} />}
       </section>
     </div>
   );

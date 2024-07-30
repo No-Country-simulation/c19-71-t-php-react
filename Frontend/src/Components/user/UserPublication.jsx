@@ -1,15 +1,15 @@
 import Post from "../Post";
-function UserPublication({ posts }) {
+function UserPublication({ posts, currentUser }) {
   console.log(`posts is: ${JSON.stringify(posts)}`);
   return (
     <ul className=" grid grid-cols-2 gap-2 md:grid-cols-3 p-2">
       {posts.length > 0 ? (
         posts.map((post) => (
           <li key={post._id}>
-            <Post isInsideProfile={true} data={post} />
-            <img
-              src={post.imageURL}
-              className="w-full h-[100%] object-cover block"
+            <Post
+              isInsideProfile={true}
+              data={post}
+              currentUser={currentUser}
             />
           </li>
         ))
