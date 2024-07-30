@@ -41,7 +41,7 @@ function UserProfile({ user, setUser }) {
           </UserInfo>
         </div>
 
-        <UserPublication posts={posts} />
+        {posts && <UserPublication posts={posts} />}
       </section>
     </div>
   );
