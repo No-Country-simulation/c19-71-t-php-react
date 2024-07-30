@@ -13,7 +13,16 @@ const inputStyle =
 function UpdateUserDataForm({ user }) {
   const [photo, setPhoto] = useState();
 
-  const { register, handleSubmit, formState, getValues } = useForm();
+  const { register, handleSubmit, formState, getValues } = useForm({
+    defaultValues: {
+      name: user.name,
+      username: user.username,
+      lastName: user.lastName,
+      email: user.email,
+      description: user.description,
+      // you can add other default values here if needed
+    },
+  });
   const { errors } = formState;
 
   function onSubmit(value) {
@@ -25,7 +34,7 @@ function UpdateUserDataForm({ user }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className=" grid gap-y-5 min-[500px]:grid-cols-2 min-[500px]:gap-x-8"
+      className="grid gap-y-5 min-[500px]:grid-cols-2 min-[500px]:gap-x-8"
     >
       <UserAvatarEdit setPhoto={setPhoto} />
 
@@ -35,7 +44,7 @@ function UpdateUserDataForm({ user }) {
           id="name"
           placeholder="Ingrese su nombre"
           className={inputStyle}
-          // disabled={isLoading}
+          defaultValue={user.name}
           {...register("name", {
             required: "Este campo es obligatorio",
           })}
@@ -46,9 +55,9 @@ function UpdateUserDataForm({ user }) {
         <input
           type="text"
           id="username"
-          placeholder="Confirma tu contraseña"
+          placeholder="Ingrese su usuario"
           className={inputStyle}
-          //disabled={isLoading}
+          defaultValue={user.username}
           {...register("username", {
             required: "Este campo es obligatorio",
           })}
@@ -61,7 +70,7 @@ function UpdateUserDataForm({ user }) {
           id="lastName"
           placeholder="Ingrese su apellido"
           className={inputStyle}
-          // disabled={isLoading}
+          defaultValue={user.lastName}
           {...register("lastName", {
             required: "Este campo es obligatorio",
           })}
@@ -74,7 +83,7 @@ function UpdateUserDataForm({ user }) {
           id="email"
           placeholder="Ingrese su correo electrónico"
           className={inputStyle}
-          //disabled={isLoading}
+          defaultValue={user.email}
           {...register("email", {
             required: "Este campo es obligatorio",
             pattern: {
@@ -85,13 +94,12 @@ function UpdateUserDataForm({ user }) {
         />
       </FormRow>
 
-      <FormRow label="Constraseña" error={errors?.password?.message}>
+      <FormRow label="Contraseña" error={errors?.password?.message}>
         <input
           type="password"
           id="password"
-          placeholder="Ingrese su constraseña"
+          placeholder="Ingrese su contraseña"
           className={inputStyle}
-          //disabled={isLoading}
           {...register("password", {
             required: "Este campo es obligatorio",
           })}
@@ -107,7 +115,6 @@ function UpdateUserDataForm({ user }) {
           id="passwordConfirm"
           placeholder="Confirma tu contraseña"
           className={inputStyle}
-          //disabled={isLoading}
           {...register("passwordConfirm", {
             required: "Este campo es obligatorio",
             validate: (value) =>
@@ -126,6 +133,7 @@ function UpdateUserDataForm({ user }) {
           id="description"
           name="description"
           className={`h-[100px] ${inputStyle}`}
+          defaultValue={user.description}
           {...register("description")}
         ></textarea>
       </FormRow>
@@ -136,7 +144,5 @@ function UpdateUserDataForm({ user }) {
     </form>
   );
 }
-
-// #D9D9D9
 
 export default UpdateUserDataForm;
