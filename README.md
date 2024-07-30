@@ -53,17 +53,23 @@ Global Link es una aplicación de redes sociales.
 
 ## Instrucciones para ejecutar el proyecto
 
-<p>Para instalar las dependencias y ejecutar el proyecto, sigue estos pasos:</p>
+Para instalar las dependencias y ejecutar el proyecto, sigue estos pasos en la terminal:
+
 
 ```sh
 npm install
 npm run dev start
 ```
-iniciar Server para desarrollo web
+Para iniciar el servidor en modo de desarrollo:
 ```sh
 npm run dev
+```
+
+Para rellenar la base de datos con datos falsos y poder ver contenido:
+```sh
+node seed.js
 ```
 ## Enlaces del proyecto
 | Figma | Trello | Mas sobre nosotros | Tecnico |
 |-------|--------|-------------------|---------------|
-|[![Skills](https://skillicons.dev/icons?i=figma)](https://www.figma.com/design/F5V2Gx1GoF2veVFsPD9Hn2/GLOBALink?node-id=0-1&t=ummJICCQ8wa715Kw-0)|[![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com) | [![Canva](https://img.shields.io/badge/Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAGLaMiEPcU/WwfgUNTqXlbj9IXzX9d_Bw/edit?utm_content=DAGLaMiEPcU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | [![Canva](https://img.shields.io/badge/Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAGLaMiEPcU/WwfgUNTqXlbj9IXzX9d_Bw/edit?utm_content=DAGLaMiEPcU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) |        
+|[![Skills](https://skillicons.dev/icons?i=figma)](https://www.figma.com/design/F5V2Gx1GoF2veVFsPD9Hn2/GLOBALink?node-id=0-1&t=ummJICCQ8wa715Kw-0)|[![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com) | [![Canva](https://img.shields.io/badge/Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAGLaMiEPcU/WwfgUNTqXlbj9IXzX9d_Bw/edit?utm_content=DAGLaMiEPcU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) | [![Canva](https://img.shields.io/badge/Canva-00C4CC?style=for-the-badge&logo=canva&logoColor=white)](https://www.canva.com/design/DAGMXU-Awuo/rqBQDGXP_JnByzCvWNsjiQ/edit?utm_content=DAGMXU-Awuo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) |        
