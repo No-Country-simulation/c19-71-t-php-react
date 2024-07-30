@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import Comment from "./Comment";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 export default function Post({ isInsideProfile, data, currentUser }) {
   const {
     imageURL,
@@ -289,7 +290,16 @@ export default function Post({ isInsideProfile, data, currentUser }) {
             {userIdsWhoLiked.length} Me gusta
           </span>
           <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
-            {liked ? <i>corazon de like</i> : <i> corazon de dislike</i>}
+            {liked ? (
+              <i>
+                <FaHeart />
+              </i>
+            ) : (
+              <i>
+                {" "}
+                <FaRegHeart />
+              </i>
+            )}
           </button>
         </div>
       </div>
