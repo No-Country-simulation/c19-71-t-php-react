@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 export async function updateUserProfile({ userId, data, setUser }) {
   console.log(userId, data);
-
-  const url = `http://localhost:3000/users/${userId}`;
+  const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+  const url = `${apiUrlFromEnv}/users/${userId}`;
   const token = sessionStorage.getItem("authToken");
   fetch(url, {
     method: "PUT",

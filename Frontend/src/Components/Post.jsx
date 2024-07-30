@@ -53,9 +53,10 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     return translation ? translation.value : "Categoría no encontrada";
   }
 
+  const apiUrlFromEnv = import.meta.env.VITE_API_URL;
   useEffect(() => {
     async function fetchUserData() {
-      const apiUrl = `http://localhost:3000/users/${userId}`;
+      const apiUrl = `${apiUrlFromEnv}/users/${userId}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
@@ -71,7 +72,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
   }, []);
 
   async function fetchComments() {
-    const apiUrl = `http://localhost:3000/comments/${id}`;
+    const apiUrl = `${apiUrlFromEnv}/comments/${id}`;
     try {
       const response = await fetch(apiUrl); // Replace with your actual API endpoint
       const data = await response.json();

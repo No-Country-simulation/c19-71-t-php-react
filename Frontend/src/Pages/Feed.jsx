@@ -26,7 +26,8 @@ export default function Feed({ user, setUser }) {
 
   useEffect(() => {
     async function fetchPosts() {
-      const apiUrl = `http://localhost:3000/posts?limit=${numberOfPostFetched}${
+      const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+      const apiUrl = `${apiUrlFromEnv}/posts?limit=${numberOfPostFetched}${
         searchParams ? `&${searchParams}` : ""
       }`;
       try {

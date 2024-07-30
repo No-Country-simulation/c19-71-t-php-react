@@ -12,7 +12,8 @@ function UserProfile({ user, setUser }) {
   const data = userFromLink ? userFromLink : user;
   useEffect(() => {
     async function fetchPosts() {
-      const apiUrl = `http://localhost:3000/posts?userId=${data._id}`;
+      const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+      const apiUrl = `${apiUrlFromEnv}/posts?userId=${data._id}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();

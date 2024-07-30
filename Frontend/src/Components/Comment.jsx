@@ -9,9 +9,11 @@ export default function Comment({
 }) {
   const [author, setAuthor] = useState();
 
+  const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     async function fetchAuthor() {
-      const apiUrl = `http://localhost:3000/users/${authorId}`;
+      const apiUrl = `${apiUrlFromEnv}/users/${authorId}`;
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
