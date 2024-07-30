@@ -167,7 +167,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         },
         body: JSON.stringify({
           postId: id,
-          userId,
+          userId: currentUser,
         }),
       });
 
@@ -253,11 +253,6 @@ export default function Post({ isInsideProfile, data, currentUser }) {
                 {getPublicationDate(date)}
               </span>{" "}
               <span>#{getTranslatedCategory(category)}</span>
-              <span className="text-red-500">
-                Likes: {userIdsWhoLiked.length}
-              </span>
-              <button onClick={() => toggleLikePost("like")}>+</button>
-              <button onClick={() => toggleLikePost("dislike")}>-</button>
             </p>
           </div>
         )}
@@ -266,6 +261,11 @@ export default function Post({ isInsideProfile, data, currentUser }) {
           onClick={openModal}
         >
           <img src={imageURL} alt="" className="  bg-white max-h-full   " />
+        </div>
+        <div className="flex gap-10">
+          <span className="text-red-500">Likes: {userIdsWhoLiked.length}</span>
+          <button onClick={() => toggleLikePost("like")}>+</button>
+          <button onClick={() => toggleLikePost("dislike")}>-</button>
         </div>
       </div>
     </div>
