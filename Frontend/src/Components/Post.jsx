@@ -5,6 +5,7 @@ import Comment from "./Comment";
 export default function Post({ isInsideProfile, data, currentUser }) {
   const {
     imageURL,
+    userIdsWhoLiked,
     description,
     createdAt: date,
     category,
@@ -152,6 +153,36 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     navigate("/profile", { state: { authorUser } });
   }
 
+  async function likePost() {
+    const token = sessionStorage.getItem("authToken");
+    try {
+      const response = await fetch("http://localhost:3000/posts/like", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postId: id,
+
+          userId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to like post");
+      }
+
+      const data = await response.json();
+      console.log("Like dado !:", data);
+
+      // Clear the form
+    } catch (err) {
+      console.error(err);
+      console.log("like no dado");
+    }
+  }
+
   return (
     <div>
       <dialog ref={dialogRef}>
@@ -219,6 +250,10 @@ export default function Post({ isInsideProfile, data, currentUser }) {
                 {getPublicationDate(date)}
               </span>{" "}
               <span>#{getTranslatedCategory(category)}</span>
+              <span className="text-red-500">
+                Likes: {userIdsWhoLiked.length}
+              </span>
+              <button onClick={likePost}>+</button> <button>-</button>
             </p>
           </div>
         )}
