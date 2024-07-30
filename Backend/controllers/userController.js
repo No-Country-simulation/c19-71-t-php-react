@@ -175,11 +175,16 @@ exports.user_auth = [
   getBearerHeaderToSetTokenStringOnReq,
   asyncHandler(async (req, res, next) => {
     //authData is what i passed in the jwt.sign
-    jwt.verify(req.token, "secretkey", (err, authData) => {
+    jwt.verify(req.token, "secretkey", async (err, authData) => {
       if (err) {
         res.sendStatus(403);
       } else {
-        res.json({ message: "auth passed", authData });
+        const userId = authData.user[0]._id; // Adjust based on how you structure the JWT payload
+
+        // Fetch the user from the database
+        const user = await User.findById(userId).exec();
+
+        res.json({ message: "auth passed", user });
       }
     });
   }),

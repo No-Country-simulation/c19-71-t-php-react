@@ -31,10 +31,8 @@ const AppRoutes = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(`data from response is : ${JSON.stringify(data)}`);
-          console.log(
-            `user data is : ${JSON.stringify(data.authData.user[0])}`
-          );
-          setUser(data.authData.user[0]);
+          console.log(`user data is : ${JSON.stringify(data)}`);
+          setUser(data.user);
         })
         .catch((error) => {
           console.error("Error fetching user info:", error);
