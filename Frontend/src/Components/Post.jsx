@@ -148,6 +148,10 @@ export default function Post({ isInsideProfile, data, currentUser }) {
 
   const commentsStyle = "flex items-center gap-4 p-6";
 
+  function goToAuthorUserProfile() {
+    navigate("/profile", { state: { authorUser } });
+  }
+
   return (
     <div>
       <dialog ref={dialogRef}>
@@ -160,7 +164,12 @@ export default function Post({ isInsideProfile, data, currentUser }) {
           <ul className="flex flex-col justify-between w-[500px]">
             <div>
               <div className="border-b-2">
-                <div className={`${commentsStyle}  `}>
+                <div
+                  className={`${commentsStyle} ${
+                    !isInsideProfile && "cursor-pointer"
+                  }`}
+                  onClick={goToAuthorUserProfile}
+                >
                   <Avatar imageUrl={authorUser?.avatar} />{" "}
                   <p>
                     {authorUser?.username}{" "}
@@ -200,9 +209,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         {!isInsideProfile && (
           <div
             className="flex gap-3 items-center cursor-pointer"
-            onClick={() => {
-              navigate("/profile", { state: { authorUser } });
-            }}
+            onClick={goToAuthorUserProfile}
           >
             <Avatar imageUrl={authorUser?.avatar} />
             <p className="font-bold flex gap-2">
