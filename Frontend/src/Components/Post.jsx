@@ -209,6 +209,23 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     }
   }
 
+  const likesSection = (
+    <div className="flex gap-10">
+      <span className="text-red-500">{userIdsWhoLiked.length} Me gusta</span>
+      <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
+        {liked ? (
+          <i>
+            <FaHeart />
+          </i>
+        ) : (
+          <i>
+            <FaRegHeart />
+          </i>
+        )}
+      </button>
+    </div>
+  );
+
   return (
     <div>
       <dialog ref={dialogRef}>
@@ -218,7 +235,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col justify-between w-[500px]">
+          <ul className="flex flex-col justify-between items-center w-[500px]">
             <div>
               <div className="border-b-2">
                 <div
@@ -246,6 +263,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
                 />
               ))}
             </div>
+            {likesSection}
             <form
               ref={formRef}
               onSubmit={postComment}
@@ -285,25 +303,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         >
           <img src={imageURL} alt="" className="  bg-white max-h-full   " />
         </div>
-        {!isInsideProfile && (
-          <div className="flex gap-10">
-            <span className="text-red-500">
-              {userIdsWhoLiked.length} Me gusta
-            </span>
-            <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
-              {liked ? (
-                <i>
-                  <FaHeart />
-                </i>
-              ) : (
-                <i>
-                  {" "}
-                  <FaRegHeart />
-                </i>
-              )}
-            </button>
-          </div>
-        )}
+        {!isInsideProfile && likesSection}
       </div>
     </div>
   );
