@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 export async function updateUserProfile({ userId, data }) {
   console.log(userId, data);
 
@@ -14,8 +15,18 @@ export async function updateUserProfile({ userId, data }) {
     .then((response) => response.json())
     .then((data) => {
       console.log("Success:", data);
+      Swal.fire({
+        title: "Cambios realizados",
+
+        icon: "success",
+      });
     })
     .catch((error) => {
       console.error("Error:", error);
+      Swal.fire({
+        title: "Hubo un problema",
+
+        icon: "error",
+      });
     });
 }
