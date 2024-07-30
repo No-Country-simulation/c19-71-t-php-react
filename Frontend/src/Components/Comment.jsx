@@ -15,7 +15,7 @@ export default function Comment({
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
-        console.log(data);
+
         setAuthor(data);
       } catch (error) {
         console.error("Error fetching posts:", error);

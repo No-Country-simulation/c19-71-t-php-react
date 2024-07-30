@@ -5,7 +5,7 @@ import Comment from "./Comment";
 export default function Post({ isInsideProfile, data, currentUser }) {
   const {
     imageURL,
-    userIdsWhoLiked,
+    userIdsWhoLiked: initialUsersIdsWhoLiked,
     description,
     createdAt: date,
     category,
@@ -17,11 +17,15 @@ export default function Post({ isInsideProfile, data, currentUser }) {
   const [comments, setComments] = useState();
   const [authorUser, setAuthorUser] = useState();
   const formRef = useRef(null);
+  const [userIdsWhoLiked, setUserIdsWhoLiked] = useState(
+    initialUsersIdsWhoLiked
+  );
 
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     // Check if the post is liked by the user
+    console.log(`first use eefect triger`);
     console.log(userIdsWhoLiked);
     console.log(currentUser._id);
     setLiked(userIdsWhoLiked.includes(currentUser._id));
@@ -54,7 +58,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
       try {
         const response = await fetch(apiUrl); // Replace with your actual API endpoint
         const data = await response.json();
-        console.log(data);
+
         setAuthorUser(data);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -70,7 +74,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     try {
       const response = await fetch(apiUrl); // Replace with your actual API endpoint
       const data = await response.json();
-      console.log(data);
+
       setComments(data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -185,10 +189,19 @@ export default function Post({ isInsideProfile, data, currentUser }) {
       }
 
       const data = await response.json();
+
       console.log(
-        `${action.charAt(0).toUpperCase() + action.slice(1)} dado !:`,
-        data
+        `${action.charAt(0).toUpperCase() + action.slice(1)} dado !:`
       );
+      console.log(
+        `------------------------------------------------------------------------------------`
+      );
+      console.log(data);
+      console.log(JSON.stringify(data.updatedPost.userIdsWhoLiked));
+      console.log(
+        `------------------------------------------------------------------------------------`
+      );
+      setUserIdsWhoLiked(data.updatedPost.userIdsWhoLiked);
     } catch (err) {
       console.error(err);
       console.log(`${action} no dado`);

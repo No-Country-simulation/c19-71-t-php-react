@@ -281,11 +281,13 @@ exports.post_like = [
       }
 
       // Add the user's ID to the post's userIdsWhoLiked array
-      await Post.findByIdAndUpdate(postId, {
-        $push: { userIdsWhoLiked: userId },
-      });
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $push: { userIdsWhoLiked: userId } },
+        { new: true }
+      );
 
-      res.status(200).json({ message: "You have liked the post" });
+      res.status(200).json({ message: "You have liked the post", updatedPost });
     } catch (error) {
       console.log(`error : ${error}`);
       res.status(500).json({ message: "An error occurred" });
@@ -327,11 +329,15 @@ exports.post_dislike = [
       }
 
       // Remove the user's ID from the post's userIdsWhoLiked array
-      await Post.findByIdAndUpdate(postId, {
-        $pull: { userIdsWhoLiked: userId },
-      });
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { $pull: { userIdsWhoLiked: userId } },
+        { new: true }
+      );
 
-      res.status(200).json({ message: "You have disliked the post" });
+      res
+        .status(200)
+        .json({ message: "You have disliked the post", updatedPost });
     } catch (error) {
       console.log(`error : ${error}`);
       res.status(500).json({ message: "An error occurred" });
