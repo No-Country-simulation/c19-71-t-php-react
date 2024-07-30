@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { Sidebar } from "../Components/Sidebar";
 
-const numberOfPostToFetch = 12;
+const numberOfPostToFetch = 8;
 
 export default function Feed({ user, setUser }) {
   const [posts, setPosts] = useState([]); // Use an empty array for initial state

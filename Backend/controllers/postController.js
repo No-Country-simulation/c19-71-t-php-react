@@ -298,6 +298,9 @@ exports.post_dislike = [
   async (req, res) => {
     const postId = req.body.postId;
     const userId = req.body.userId;
+    console.log(`----------------------------------------------`);
+    console.log(userId);
+    console.log(`----------------------------------------------`);
 
     try {
       // Verify the token
@@ -317,6 +320,7 @@ exports.post_dislike = [
 
       // Check if the user has already liked the post
       if (!post.userIdsWhoLiked.includes(userId)) {
+        console.log(`you have not liked this post`);
         return res
           .status(400)
           .json({ message: "You have not liked this post" });

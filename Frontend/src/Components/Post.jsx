@@ -18,6 +18,15 @@ export default function Post({ isInsideProfile, data, currentUser }) {
   const [authorUser, setAuthorUser] = useState();
   const formRef = useRef(null);
 
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    // Check if the post is liked by the user
+    console.log(userIdsWhoLiked);
+    console.log(currentUser._id);
+    setLiked(userIdsWhoLiked.includes(currentUser._id));
+  }, [userIdsWhoLiked, currentUser]);
+
   function getTranslatedCategory(category) {
     const translations = [
       { filterField: "all", value: "Todas" },
@@ -167,7 +176,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         },
         body: JSON.stringify({
           postId: id,
-          userId: currentUser,
+          userId: currentUser._id,
         }),
       });
 
@@ -263,9 +272,12 @@ export default function Post({ isInsideProfile, data, currentUser }) {
           <img src={imageURL} alt="" className="  bg-white max-h-full   " />
         </div>
         <div className="flex gap-10">
-          <span className="text-red-500">Likes: {userIdsWhoLiked.length}</span>
-          <button onClick={() => toggleLikePost("like")}>+</button>
-          <button onClick={() => toggleLikePost("dislike")}>-</button>
+          <span className="text-red-500">
+            {userIdsWhoLiked.length} Me gusta
+          </span>
+          <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
+            {liked ? <i>corazon de like</i> : <i> corazon de dislike</i>}
+          </button>
         </div>
       </div>
     </div>
