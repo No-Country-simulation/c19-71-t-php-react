@@ -285,23 +285,25 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         >
           <img src={imageURL} alt="" className="  bg-white max-h-full   " />
         </div>
-        <div className="flex gap-10">
-          <span className="text-red-500">
-            {userIdsWhoLiked.length} Me gusta
-          </span>
-          <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
-            {liked ? (
-              <i>
-                <FaHeart />
-              </i>
-            ) : (
-              <i>
-                {" "}
-                <FaRegHeart />
-              </i>
-            )}
-          </button>
-        </div>
+        {!isInsideProfile && (
+          <div className="flex gap-10">
+            <span className="text-red-500">
+              {userIdsWhoLiked.length} Me gusta
+            </span>
+            <button onClick={() => toggleLikePost(liked ? "dislike" : "like")}>
+              {liked ? (
+                <i>
+                  <FaHeart />
+                </i>
+              ) : (
+                <i>
+                  {" "}
+                  <FaRegHeart />
+                </i>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
