@@ -1,3 +1,4 @@
+import Post from "../Post";
 function UserPublication({ posts }) {
   console.log(`posts is: ${JSON.stringify(posts)}`);
   return (
@@ -5,6 +6,7 @@ function UserPublication({ posts }) {
       {posts.length > 0 ? (
         posts.map((post) => (
           <li key={post._id}>
+            <Post isInsideProfile={true} data={post} />
             <img
               src={post.imageURL}
               className="w-full h-[100%] object-cover block"

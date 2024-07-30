@@ -2,15 +2,15 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import Comment from "./Comment";
-export default function Post({
-  imageUrl,
-  description,
-  date,
-  category,
-  id,
-  userId,
-  currentUser,
-}) {
+export default function Post({ isInsideProfile, data, currentUser }) {
+  const {
+    imageURL,
+    description,
+    createdAt: date,
+    category,
+    userId,
+    _id: id,
+  } = data;
   const navigate = useNavigate();
 
   const [comments, setComments] = useState();
@@ -153,7 +153,7 @@ export default function Post({
       <dialog ref={dialogRef}>
         <div className="flex">
           <img
-            src={imageUrl}
+            src={imageURL}
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
@@ -197,25 +197,29 @@ export default function Post({
         </div>
       </dialog>
       <div className="flex flex-col gap-3 py-20">
-        <div
-          className="flex gap-3 items-center cursor-pointer"
-          onClick={() => {
-            navigate("/profile", { state: { authorUser } });
-          }}
-        >
-          <Avatar imageUrl={authorUser?.avatar} />
-          <p className="font-bold flex gap-2">
-            {authorUser?.username}
-            <span>•</span>
-            <span className="font-normal">{getPublicationDate(date)}</span>{" "}
-            <span>#{getTranslatedCategory(category)}</span>
-          </p>
-        </div>
+        {!isInsideProfile && (
+          <div
+            className="flex gap-3 items-center cursor-pointer"
+            onClick={() => {
+              navigate("/profile", { state: { authorUser } });
+            }}
+          >
+            <Avatar imageUrl={authorUser?.avatar} />
+            <p className="font-bold flex gap-2">
+              {authorUser?.username}
+              <span>•</span>
+              <span className="font-normal">
+                {getPublicationDate(date)}
+              </span>{" "}
+              <span>#{getTranslatedCategory(category)}</span>
+            </p>
+          </div>
+        )}
         <div
           className="w-[468px] h-[585px] border-2 border-solid border-black bg-black flex items-center justify-center"
           onClick={openModal}
         >
-          <img src={imageUrl} alt="" className="  bg-white max-h-full   " />
+          <img src={imageURL} alt="" className="  bg-white max-h-full   " />
         </div>
       </div>
     </div>

@@ -68,16 +68,7 @@ export default function Feed({ user, setUser }) {
       ) : (
         <ul className="flex flex-col   items-center  ">
           {posts.map((post) => (
-            <Post
-              key={post._id}
-              imageUrl={post.imageURL}
-              description={post.description}
-              date={post.createdAt}
-              userId={post.userId}
-              id={post._id}
-              category={post.category}
-              currentUser={user}
-            />
+            <Post key={post._id} data={post} currentUser={user} />
           ))}
         </ul>
       )}
