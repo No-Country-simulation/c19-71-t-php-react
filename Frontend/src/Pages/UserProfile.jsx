@@ -8,8 +8,24 @@ import { Sidebar } from "../Components/Sidebar.jsx";
 function UserProfile({ user, setUser }) {
   const location = useLocation();
   const { authorUser: userFromLink } = location.state || {};
-
+  const [posts, setPosts] = useState();
   const data = userFromLink ? userFromLink : user;
+  useEffect(() => {
+    async function fetchPosts() {
+      const apiUrl = `http://localhost:3000/posts?userId=${data._id}`;
+      try {
+        const response = await fetch(apiUrl); // Replace with your actual API endpoint
+        const data = await response.json();
+        console.log(data);
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        // Handle errors gracefully, e.g., display an error message to the user
+      }
+    }
+
+    fetchPosts(); //
+  }, []);
 
   return (
     <div className=" grid grid-cols-[16rem_1fr] min-h-screen gap-10">
@@ -20,12 +36,12 @@ function UserProfile({ user, setUser }) {
       <section className="py-[50px] px-[50px]  h-full lg:py-[76px] lg:px-[150px]">
         <div className="  flex flex-col gap-7 pb-[30px] md:flex-row  md:items-center">
           <Avatar imageUrl={data.avatar} />
-          <UserInfo user={data}>
+          <UserInfo user={data} numberOfPosts={posts?.length}>
             {userFromLink && <Button type="primary">Seguir</Button>}
           </UserInfo>
         </div>
 
-        <UserPublication userId={data._id} />
+        <UserPublication posts={posts} />
       </section>
     </div>
   );
