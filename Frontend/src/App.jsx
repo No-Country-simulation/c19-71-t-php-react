@@ -9,14 +9,13 @@ import UpdateProfile from "./Pages/UpdateProfile";
 import CreatePost from "./Pages/CreatePost";
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
-  let token = sessionStorage.getItem("authToken");
-
+  const token = sessionStorage.getItem("authToken");
+  
   useEffect(() => {
     if (!user) {
       console.log(`the user is logged out`);
     }
   }, [user]);
-
   //fetch user data
   useEffect(() => {
     if (token) {
@@ -42,7 +41,7 @@ const AppRoutes = () => {
         });
     }
   }, [token]);
-  token = 'asdf' /////JFGT
+  
   const routes = useRoutes([
     {
       path: "/",
@@ -50,11 +49,11 @@ const AppRoutes = () => {
     },
     {
       path: "/profile",
-      element: user ? <UserProfile user={user} /> : <Home />,
+      element: user ? <UserProfile user={user} setUser={setUser} /> : <Home />,
     },
     {
       path: "/updateProfile",
-      element: user ? <UpdateProfile user={user} /> : <Home />,
+      element: user ? <UpdateProfile user={user} setUser={setUser} /> : <Home />,
     },
     {
       path: "/feed",
@@ -66,7 +65,7 @@ const AppRoutes = () => {
     },
     {
       path: "/createPost",
-      element: user ? <CreatePost user={user} /> : <Home />,
+      element: user ? <CreatePost user={user} setUser={setUser} /> : <Home />,
     },
     { path: "/*", element: <NotFound /> },
   ]);

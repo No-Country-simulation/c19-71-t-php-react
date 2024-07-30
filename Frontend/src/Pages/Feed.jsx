@@ -67,7 +67,7 @@ export default function Feed({ user, setUser }) {
       <div className=" flex bg-red-400"> 
     
         <Category />
-        <Sidebar/>
+        <Sidebar setUser={setUser}/>
       
       </div>
       
