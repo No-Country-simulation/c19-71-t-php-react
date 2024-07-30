@@ -243,3 +243,33 @@ exports.post_delete = [
     }
   },
 ];
+
+exports.post_like = [
+  getBearerHeaderToSetTokenStringOnReq,
+  async (req, res) => {
+    const postId = req.body.postId;
+    const userId = req.body.userId
+    try {
+      verify(req.token, "secretkey");
+      await Post.findByIdAndUpdate(postId, {$push: {'userIdsWhoLiked': userId}});
+      res.status(200).json({ message: "You have liked the post" });
+    } catch (error) {
+      console.log(`error : ${error}`);
+    }
+  },
+]
+
+exports.post_dislike = [
+  getBearerHeaderToSetTokenStringOnReq,
+  async (req, res) => {
+    const postId = req.body.postId;
+    const userId = req.body.userId
+    try {
+      verify(req.token, "secretkey");
+      await Post.findByIdAndUpdate(postId, {$pull: {'userIdsWhoLiked': userId}});
+      res.status(200).json({ message: "You have disliked the post" });
+    } catch (error) {
+      console.log(`error : ${error}`);
+    }
+  },
+]
