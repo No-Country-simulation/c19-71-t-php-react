@@ -92,9 +92,10 @@ exports.post_create = [
 ];
 
 exports.post_list = asyncHandler(async (req, res, next) => {
-  const { limit, category } = req.query;
+  const { limit, category, userId } = req.query;
   console.log(`limit is : ${limit}`);
   console.log(`category is : ${category}`);
+  console.log(`userId is : ${userId}`);
 
   // Initialize a query
   let query = Post.find();
@@ -105,6 +106,11 @@ exports.post_list = asyncHandler(async (req, res, next) => {
   // Add category filter if provided
   if (category && category !== "all") {
     query = query.where("category").equals(category);
+  }
+
+  // Add userId filter if provided
+  if (userId) {
+    query = query.where("userId").equals(userId);
   }
 
   // Add limit if provided
@@ -248,28 +254,32 @@ exports.post_like = [
   getBearerHeaderToSetTokenStringOnReq,
   async (req, res) => {
     const postId = req.body.postId;
-    const userId = req.body.userId
+    const userId = req.body.userId;
     try {
       verify(req.token, "secretkey");
-      await Post.findByIdAndUpdate(postId, {$push: {'userIdsWhoLiked': userId}});
+      await Post.findByIdAndUpdate(postId, {
+        $push: { userIdsWhoLiked: userId },
+      });
       res.status(200).json({ message: "You have liked the post" });
     } catch (error) {
       console.log(`error : ${error}`);
     }
   },
-]
+];
 
 exports.post_dislike = [
   getBearerHeaderToSetTokenStringOnReq,
   async (req, res) => {
     const postId = req.body.postId;
-    const userId = req.body.userId
+    const userId = req.body.userId;
     try {
       verify(req.token, "secretkey");
-      await Post.findByIdAndUpdate(postId, {$pull: {'userIdsWhoLiked': userId}});
+      await Post.findByIdAndUpdate(postId, {
+        $pull: { userIdsWhoLiked: userId },
+      });
       res.status(200).json({ message: "You have disliked the post" });
     } catch (error) {
       console.log(`error : ${error}`);
     }
   },
-]
+];

@@ -13,7 +13,9 @@ function UserProfile({ user, setUser }) {
 
   return (
     <div className=" grid grid-cols-[16rem_1fr] min-h-screen gap-10">
-      <div className=" bg-gray-200"><Sidebar setUser={setUser}/></div>
+      <div className=" bg-gray-200">
+        <Sidebar setUser={setUser} />
+      </div>
 
       <section className="py-[50px] px-[50px]  h-full lg:py-[76px] lg:px-[150px]">
         <div className="  flex flex-col gap-7 pb-[30px] md:flex-row  md:items-center">
@@ -23,7 +25,7 @@ function UserProfile({ user, setUser }) {
           </UserInfo>
         </div>
 
-        <UserPublication publication={[]} />
+        <UserPublication userId={data._id} />
       </section>
     </div>
   );
