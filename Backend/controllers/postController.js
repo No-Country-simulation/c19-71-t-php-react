@@ -298,14 +298,39 @@ exports.post_dislike = [
   async (req, res) => {
     const postId = req.body.postId;
     const userId = req.body.userId;
+
     try {
+      // Verify the token
       verify(req.token, "secretkey");
+
+      // Check if the user exists
+      const userExists = await User.findById(userId);
+      if (!userExists) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Check if the post exists
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+
+      // Check if the user has already liked the post
+      if (!post.userIdsWhoLiked.includes(userId)) {
+        return res
+          .status(400)
+          .json({ message: "You have not liked this post" });
+      }
+
+      // Remove the user's ID from the post's userIdsWhoLiked array
       await Post.findByIdAndUpdate(postId, {
         $pull: { userIdsWhoLiked: userId },
       });
+
       res.status(200).json({ message: "You have disliked the post" });
     } catch (error) {
       console.log(`error : ${error}`);
+      res.status(500).json({ message: "An error occurred" });
     }
   },
 ];

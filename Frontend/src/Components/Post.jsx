@@ -153,10 +153,13 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     navigate("/profile", { state: { authorUser } });
   }
 
-  async function likePost() {
+  async function toggleLikePost(action) {
     const token = sessionStorage.getItem("authToken");
+    const baseURL = "http://localhost:3000/posts";
+    const endpoint = `${baseURL}/${action}`;
+
     try {
-      const response = await fetch("http://localhost:3000/posts/like", {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -164,22 +167,22 @@ export default function Post({ isInsideProfile, data, currentUser }) {
         },
         body: JSON.stringify({
           postId: id,
-
           userId,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to like post");
+        throw new Error(`Failed to ${action} post`);
       }
 
       const data = await response.json();
-      console.log("Like dado !:", data);
-
-      // Clear the form
+      console.log(
+        `${action.charAt(0).toUpperCase() + action.slice(1)} dado !:`,
+        data
+      );
     } catch (err) {
       console.error(err);
-      console.log("like no dado");
+      console.log(`${action} no dado`);
     }
   }
 
@@ -253,7 +256,8 @@ export default function Post({ isInsideProfile, data, currentUser }) {
               <span className="text-red-500">
                 Likes: {userIdsWhoLiked.length}
               </span>
-              <button onClick={likePost}>+</button> <button>-</button>
+              <button onClick={() => toggleLikePost("like")}>+</button>
+              <button onClick={() => toggleLikePost("dislike")}>-</button>
             </p>
           </div>
         )}
