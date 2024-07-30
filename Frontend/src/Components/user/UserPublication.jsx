@@ -1,7 +1,8 @@
 function UserPublication({ posts }) {
+  console.log(`posts is: ${JSON.stringify(posts)}`);
   return (
     <ul className=" grid grid-cols-2 gap-2 md:grid-cols-3 p-2">
-      {posts ? (
+      {posts.length > 0 ? (
         posts.map((post) => (
           <li key={post._id}>
             <img
