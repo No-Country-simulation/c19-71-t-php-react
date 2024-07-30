@@ -10,10 +10,15 @@ import CreatePost from "./Pages/CreatePost";
 const AppRoutes = () => {
   const [user, setUser] = useState(null);
   const token = sessionStorage.getItem("authToken");
-  
+  console.log(
+    `-------------------------------------------------- token ------------------------------------------------------------------------------------------`
+  );
+
   useEffect(() => {
     if (!user) {
       console.log(`the user is logged out`);
+    } else {
+      console.log(`the user is logged in`);
     }
   }, [user]);
   //fetch user data
@@ -39,7 +44,7 @@ const AppRoutes = () => {
         });
     }
   }, [token]);
-  
+
   const routes = useRoutes([
     {
       path: "/",
@@ -51,7 +56,11 @@ const AppRoutes = () => {
     },
     {
       path: "/updateProfile",
-      element: user ? <UpdateProfile user={user} setUser={setUser} /> : <Home />,
+      element: user ? (
+        <UpdateProfile user={user} setUser={setUser} />
+      ) : (
+        <Home />
+      ),
     },
     {
       path: "/feed",

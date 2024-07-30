@@ -3,8 +3,7 @@ import Post from "../Components/Post";
 import Category from "../Components/Category";
 import { useSearchParams } from "react-router-dom";
 
-import { Sidebar } from '../Components/Sidebar'
-
+import { Sidebar } from "../Components/Sidebar";
 
 const numberOfPostToFetch = 12;
 
@@ -16,10 +15,6 @@ export default function Feed({ user, setUser }) {
   ////////////////////////////
 
   const [searchParams] = useSearchParams();
-
-  useEffect(() => {
-    console.log(`seachParams is: ${searchParams}`);
-  }, [searchParams]);
 
   // 1) FILTER
   const filterValue = searchParams.get("categoria") || "all";
@@ -63,15 +58,10 @@ export default function Feed({ user, setUser }) {
 
   return (
     <div className="relative">
-
-      <div className=" flex bg-red-400"> 
-    
+      <div className=" flex bg-red-400">
         <Category />
-        <Sidebar setUser={setUser}/>
-      
+        <Sidebar setUser={setUser} />
       </div>
-      
-
 
       {!posts ? (
         <p>Loading posts...</p>

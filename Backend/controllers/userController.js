@@ -238,7 +238,7 @@ exports.user_update = [
         jwt.verify(req.token, "secretkey");
         await User.findByIdAndUpdate(req.params.id, updatedUser, {});
 
-        res.status(200).json({});
+        res.status(200).json(updatedUser);
       } catch (error) {
         console.log("Error occurred:", error);
         res.status(500).json({ error: error });

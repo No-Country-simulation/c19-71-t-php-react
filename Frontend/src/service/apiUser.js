@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-export async function updateUserProfile({ userId, data }) {
+export async function updateUserProfile({ userId, data, setUser }) {
   console.log(userId, data);
 
   const url = `http://localhost:3000/users/${userId}`;
@@ -20,6 +20,7 @@ export async function updateUserProfile({ userId, data }) {
 
         icon: "success",
       });
+      setUser(data);
     })
     .catch((error) => {
       console.error("Error:", error);
