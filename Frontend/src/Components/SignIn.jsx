@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import Swal from "sweetalert2";
+import logo from "../images/Golbalink- aplicado en texto.png";
 export default function SignIn({ setOpenModal }) {
   const formRef = useRef(null);
 
@@ -59,7 +60,10 @@ export default function SignIn({ setOpenModal }) {
       className="w-[700px] p-10  bg-white  border-2 shadow-md  flex flex-col items-center gap-10 rounded-3xl "
       onSubmit={handleSubmit}
     >
-      <h2 className="font-semibold text-2xl">Registrate en</h2>
+      <div>
+        <h2 className="font-semibold text-2xl text-center">Registrate en</h2>
+        <img className="w-[300px] mt-4" src={logo} />
+      </div>
       <div className="flex flex-wrap gap-10 justify-center  ">
         <input
           className={inputStyle}
