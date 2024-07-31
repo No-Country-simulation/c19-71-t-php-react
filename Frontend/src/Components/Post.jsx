@@ -264,20 +264,22 @@ export default function Post({ isInsideProfile, data, currentUser }) {
                 />
               ))}
             </div>
-            {likesSection}
-            <form
-              ref={formRef}
-              onSubmit={postComment}
-              className="flex px-3 gap-5"
-            >
-              <input
-                type="text"
-                name="comment"
-                autoComplete="off"
-                placeholder="Agrega un comentario"
-              />
-              <button type="submit">Publicar</button>
-            </form>
+            <div className="flex flex-col gap-5 p-5 items-center">
+              {likesSection}
+              <form
+                ref={formRef}
+                onSubmit={postComment}
+                className="flex px-3 gap-5"
+              >
+                <input
+                  type="text"
+                  name="comment"
+                  autoComplete="off"
+                  placeholder="Agrega un comentario"
+                />
+                <button type="submit">Publicar</button>
+              </form>
+            </div>
           </ul>
         </div>
       </dialog>
