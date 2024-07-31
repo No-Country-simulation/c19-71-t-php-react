@@ -3,8 +3,9 @@ const { faker } = require("@faker-js/faker");
 const User = require("./models/user"); // Adjust the path as necessary
 const { Post } = require("./models/post"); // Adjust the path as necessary
 const Comment = require("./models/comments"); // Adjust the path as necessary
+require("dotenv").config();
 
-mongoose.connect("mongodb://user:pass@localhost:27017/miapp?authSource=admin", {
+mongoose.connect(process.env.MONGODB_URI || process.env.DEV_DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -67,6 +68,22 @@ db.once("open", async () => {
     });
   }
   const posts = await Post.insertMany(dummyPosts);
+
+  // Add likes to posts
+  for (const post of posts) {
+    const numberOfLikes = faker.datatype.number({ min: 0, max: 10 }); // Random number of likes for each post
+    const usersWhoLiked = new Set();
+
+    for (let i = 0; i < numberOfLikes; i++) {
+      const randomUser = faker.helpers.arrayElement(users);
+      if (!usersWhoLiked.has(randomUser._id)) {
+        usersWhoLiked.add(randomUser._id);
+      }
+    }
+
+    post.userIdsWhoLiked = Array.from(usersWhoLiked);
+    await post.save();
+  }
 
   // Create dummy comments
   const dummyComments = [];
