@@ -24,8 +24,9 @@ const AppRoutes = () => {
   //fetch user data
   useEffect(() => {
     if (token) {
+      const apiUrlFromEnv = import.meta.env.VITE_API_URL;
       // Fetch user info using the token (assuming you have an API endpoint for this)
-      fetch("http://localhost:3000/users/auth", {
+      fetch(`${apiUrlFromEnv}/users/auth`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

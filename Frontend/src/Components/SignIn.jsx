@@ -15,8 +15,8 @@ export default function SignIn({ setOpenModal }) {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-
-    const apiUrl = "http://localhost:3000/users/signup";
+    const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+    const apiUrl = `${apiUrlFromEnv}/users/signup`;
 
     try {
       const response = await fetch(apiUrl, {

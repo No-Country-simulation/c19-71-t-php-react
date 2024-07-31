@@ -4,7 +4,8 @@ import Swal from "sweetalert2";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const API_USERS = "http://localhost:3000/users/signin";
+  const apiUrlFromEnv = import.meta.env.VITE_API_URL;
+  const API_USERS = `${apiUrlFromEnv}/users/signin`;
 
   const onSubmit = async (e) => {
     // 'emilys', 'emilyspass'

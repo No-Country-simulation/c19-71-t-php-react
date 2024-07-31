@@ -128,7 +128,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
     const form = formRef.current;
     const input = form.elements.comment;
     try {
-      const response = await fetch("http://localhost:3000/comments", {
+      const response = await fetch(`${apiUrlFromEnv}/comments`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -170,7 +170,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
 
   async function toggleLikePost(action) {
     const token = sessionStorage.getItem("authToken");
-    const baseURL = "http://localhost:3000/posts";
+    const baseURL = `${apiUrlFromEnv}/posts`;
     const endpoint = `${baseURL}/${action}`;
 
     try {
