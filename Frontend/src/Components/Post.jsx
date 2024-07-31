@@ -236,7 +236,7 @@ export default function Post({ isInsideProfile, data, currentUser }) {
             alt=""
             className="  h-[90vh] border-2 border-solid border-black "
           />
-          <ul className="flex flex-col justify-between items-center w-[500px]">
+          <ul className="flex flex-col justify-between  w-[500px]">
             <div>
               <div className="border-b-2">
                 <div
