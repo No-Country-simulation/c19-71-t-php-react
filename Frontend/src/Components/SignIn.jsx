@@ -29,13 +29,13 @@ export default function SignIn({ setOpenModal }) {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Network response was not ok");
       }
 
       const result = await response.json();
       Swal.fire({
         title: "Cuenta creada",
-
         icon: "success",
       });
 
@@ -46,7 +46,7 @@ export default function SignIn({ setOpenModal }) {
       console.error("Error:", error);
       Swal.fire({
         title: "Oops",
-        text: `Error ${error.message}`,
+        text: `Error: ${error.message}`,
         icon: "error",
       });
     }
